@@ -1,1 +1,30 @@
+name: Daily Stock Schedule
+on:
+  schedule:
+    - cron: '30 6 * * *'
+  workflow_dispatch:
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install yfinance pandas requests
+
+      - name: Find and Run script
+        env:
+          LINE_TOKEN: ${{ secrets.LINE_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+        # 終極解決方案：自動掃描整個倉庫，找到 main.py 就執行，完全無視路徑層級！
+        run: |
+          TARGET=$(find . -name "main.py" | head -n 1)
+          echo "執行路徑: $TARGET"
+          python "$TARGET"
