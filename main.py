@@ -1,5 +1,4 @@
-
-檔案一：main.py請在 GitHub 根目錄新增 main.py，並貼上以下全部內容：import yfinance as yf
+import yfinance as yf
 import pandas as pd
 import requests
 import os
@@ -51,10 +50,22 @@ def analyze():
 
 if __name__ == "__main__":
     analyze()
-檔案二：requirements.txt請在 GitHub 根目錄新增 requirements.txt，並貼上以下這 3 行：yfinance
+
+
+檔案二：requirements.txt
+
+請在 GitHub 根目錄新增 requirements.txt，並貼上以下這 3 行：
+
+yfinance
 pandas
 requests
-檔案三：schedule.yml請在 GitHub 新增檔案，名稱連同資料夾輸入 .github/workflows/schedule.yml，並貼上以下內容：name: Daily Stock Schedule
+
+
+檔案三：schedule.yml
+
+請在 GitHub 新增檔案，名稱連同資料夾輸入 .github/workflows/schedule.yml，並貼上以下內容：
+
+name: Daily Stock Schedule
 on:
   schedule:
     - cron: '30 6 * * *'
