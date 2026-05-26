@@ -1,30 +1,34 @@
+
 name: Daily Stock Schedule
 on:
   schedule:
-    - cron: '30 6 * * *'
+    - cron: '0 4 * * *'  # 台灣時間中午 12:00
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # 1. 升級至 v4
+      - uses: actions/checkout@v4
 
+      # 2. 升級至 v5 (解決 candidates is not iterable 的關鍵)
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.10'  # 順便把 Python 升級到更穩定的 3.10
 
       - name: Install dependencies
         run: |
-          pip install yfinance pandas requests
+          pip install yfinance pandas requests ta
 
       - name: Find and Run script
         env:
           LINE_TOKEN: ${{ secrets.LINE_TOKEN }}
           LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
-        # 終極解決方案：自動掃描整個倉庫，找到 main.py 就執行，完全無視路徑層級！
         run: |
           TARGET=$(find . -name "main.py" | head -n 1)
-          echo "執行路徑: $TARGET"
+          echo "找到的執行路徑: $TARGET"
           python "$TARGET"
+
+
