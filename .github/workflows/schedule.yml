@@ -1,22 +1,20 @@
-
 name: Daily Stock Schedule
 on:
   schedule:
-    - cron: '0 4 * * *'  # 台灣時間中午 12:00
+    # 台灣時間 11:53 執行 (UTC 03:53)，避開全球整點大塞車
+    - cron: '53 3 * * *'  
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 1. 升級至 v4
       - uses: actions/checkout@v4
 
-      # 2. 升級至 v5 (解決 candidates is not iterable 的關鍵)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'  # 順便把 Python 升級到更穩定的 3.10
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
@@ -28,7 +26,4 @@ jobs:
           LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
         run: |
           TARGET=$(find . -name "main.py" | head -n 1)
-          echo "找到的執行路徑: $TARGET"
           python "$TARGET"
-
-
