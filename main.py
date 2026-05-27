@@ -127,7 +127,7 @@ def analyze():
 
             # === 輸出報告生成 ===
             if buy_score > 0 or sell_c1 or sell_c2:
-                report += f"\n[{code} {name}] 量能 {vol_ratio:.1f}倍\n"
+                report += f"\n[{code} {name}] 股價 {today['Close']:.1f} 元 | 量能 {vol_ratio:.1f}倍\n"
                 
                 # 處理買方訊號
                 if buy_score > 0:
