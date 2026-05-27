@@ -1,10 +1,9 @@
-
 import yfinance as yf
 import pandas as pd
 import requests
 import os
 from datetime import datetime
-from ta.volatility import BollingerBands
+from ta.volatility import BollingerBands, AverageTrueRange
 from ta.trend import PSARIndicator
 
 # 取得環境變數
@@ -34,10 +33,24 @@ def get_market_status():
         return "⚪ 大盤狀態讀取失敗"
 
 def analyze():
-    # 觀察名單 (可自由增減)
+    # 觀察名單 (精選熱門個股期貨與台灣50權值股 + AI概念股)
     targets = {
-        "2330": "台積電", "3017": "奇鋐", "2317": "鴻海", "8299": "群聯", 
-        "2454": "聯發科", "3231": "緯創", "2382": "廣達","2303": "聯電"
+        # --- 👑 護國神山與半導體 ---
+        "2330": "台積電", "2317": "鴻海", "2454": "聯發科", "2303": "聯電", 
+        "3711": "日月光", "3034": "聯詠", "2379": "瑞昱", "3443": "創意",
+        
+        # --- 🤖 AI 伺服器與散熱 (高波動飆股區) ---
+        "2382": "廣達", "3231": "緯創", "2376": "技嘉", "2356": "英業達",
+        "3017": "奇鋐", "3324": "雙鴻", "2383": "台光電", "3037": "欣興",
+        
+        # --- ⚡ 重電與基建 ---
+        "1519": "華城", "1513": "中興電", "1504": "東元", "1514": "亞力",
+        
+        # --- 🧠 AI 記憶體與銅箔基板 (新增區) ---
+        "8299": "群聯", "2337": "旺宏", "8358": "金居","2308":"台達電","6285":"啟碁"
+        
+        # --- 💰 金融權值 (用來判斷大盤氣氛，波動較小) ---
+        "2881": "富邦金", "2882": "國泰金", "2891": "中信金"
     }
     
     today_str = datetime.now().strftime('%Y-%m-%d')
@@ -66,6 +79,10 @@ def analyze():
             indicator_psar = PSARIndicator(high=df['High'], low=df['Low'], close=df['Close'], step=0.02, max_step=0.2)
             df['PSAR'] = indicator_psar.psar()
             
+            # 🚀 計算 ATR (Average True Range)
+            indicator_atr = AverageTrueRange(high=df['High'], low=df['Low'], close=df['Close'], window=14)
+            df['ATR'] = indicator_atr.average_true_range()
+            
             # 尋找前高頸線
             df['Is_Peak'] = (df['High'] > df['High'].shift(1)) & (df['High'] > df['High'].shift(2)) & \
                             (df['High'] >= df['High'].shift(-1)) & (df['High'] >= df['High'].shift(-2))
@@ -92,11 +109,14 @@ def analyze():
             buy_c1, buy_c2, buy_c3, buy_c4 = (is_high_volume and is_breakout), is_bullish_ma, (is_tangled and (today['Close'] > recent_neckline)), (is_high_volume and is_super_red)
             buy_score = sum([buy_c1, buy_c2, buy_c3, buy_c4])
 
-            # === 乖離率與防守點計算 (進階實戰邏輯) ===
+            # === ATR 動態防守與攻擊 (紀律核心) ===
             bias_20 = (today['Close'] - today['MA20']) / today['MA20']
+            current_atr = today['ATR']
             
-            # 買進防守點：因為如果處於強勢乖離，用昨低防守最安全
-            stop_loss_price = min(today['Low'], yesterday['Low'])
+            # 防守點：往下 1.5 倍 ATR
+            atr_stop_loss = today['Close'] - (1.5 * current_atr)
+            # 攻擊點(停利)：往上 3.0 倍 ATR (創造 1:2 優質風報比)
+            atr_take_profit = today['Close'] + (3.0 * current_atr)
 
             # === 賣出條件判斷 ===
             is_surging = all(df['Close'].iloc[-i] > df['MA5'].iloc[-i] for i in range(1, 4))
@@ -117,13 +137,15 @@ def analyze():
                     if buy_c3: report += f"  [✓] 均線糾結且站穩\n"
                     if buy_c4: report += f"  [✓] 爆量大紅K吞噬\n"
                     
-                    report += f"  🛡️ 嚴格防守價: {stop_loss_price:.1f}\n"
+                    # 🚀 加入完整的交易計畫
+                    report += f"  📏 每日平均震幅: 約 {current_atr:.1f} 元\n"
+                    report += f"  🛡️ ATR 停損價: {atr_stop_loss:.1f}\n"
+                    report += f"  💰 ATR 停利價: {atr_take_profit:.1f} (風報比1:2)\n"
                     
-                    # 🚀 實戰乖離率邏輯更新
                     if bias_20 > 0.15:
-                        report += f"  🔥 [極強勢軋空] 乖離達 {bias_20*100:.1f}%！若要上車請務必「縮小資金部位」！\n"
+                        report += f"  🔥 [強勢軋空] 乖離達 {bias_20*100:.1f}%！請縮小部位！\n"
                     elif bias_20 > 0.08:
-                        report += f"  ⚠️ [動能強勁] 乖離達 {bias_20*100:.1f}%，留意短線震盪回踩。\n"
+                        report += f"  ⚠️ [動能強勁] 乖離達 {bias_20*100:.1f}%，留意回踩。\n"
                 
                 # 處理賣方訊號
                 if sell_c1 or sell_c2:
@@ -137,7 +159,7 @@ def analyze():
             print(f"Error {code}: {e}")
             
     if found:
-        report += "\n" + "="*20 + "\n💡 觀念提醒：乖離大不是不能買，是資金只能買少一點！"
+        report += "\n" + "="*20 + "\n💡 觀念提醒：進場同時設好停損與停利，剩下的交給市場。"
         send_line_message(report)
     else:
         print("今日盤中無符合條件之股票。")
