@@ -1,0 +1,321 @@
+
+    <!DOCTYPE html>
+    <html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>戰情儀表板 | 2026-05-28</title>
+        <style>
+            :root {
+                --bg-color: #121212;
+                --card-bg: #1e1e1e;
+                --text-main: #e0e0e0;
+                --text-sub: #a0a0a0;
+                --accent-green: #00704A;
+                --accent-red: #d9534f;
+                --border-radius: 12px;
+            }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                background-color: var(--bg-color);
+                color: var(--text-main);
+                margin: 0; padding: 20px;
+            }
+            .header {
+                text-align: center; margin-bottom: 30px;
+            }
+            .market-status {
+                display: inline-block; padding: 10px 20px; border-radius: 30px;
+                background-color: var(--card-bg); border: 1px solid #00704A;
+                color: #00704A; font-weight: bold; margin-top: 10px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            }
+            .grid-container {
+                display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;
+            }
+            .card {
+                background-color: var(--card-bg); border-radius: var(--border-radius);
+                padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+                border-top: 4px solid var(--accent-green); transition: transform 0.2s;
+            }
+            .card.sell { border-top-color: var(--accent-red); }
+            .card:active { transform: translateY(2px); box-shadow: 0 4px 8px rgba(0,0,0,0.4); }
+            .card-header {
+                display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;
+            }
+            .stock-name { font-size: 1.4em; font-weight: bold; }
+            .stock-price { font-size: 1.2em; color: #fff; }
+            .data-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95em; }
+            .label { color: var(--text-sub); }
+            .value-green { color: var(--accent-green); font-weight: bold; }
+            .value-red { color: var(--accent-red); font-weight: bold; }
+            .stars { color: #FFD700; font-size: 1.2em; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h2>AI 戰情儀表板</h2>
+            <p style="color: var(--text-sub);">2026-05-28</p>
+            <div class="market-status">🟢 大盤偏多 (站上月線)</div>
+        </div>
+        <h3 style="color: var(--accent-green);">🟢 多方突破訊號 (14)</h3>
+        <div class="grid-container">
+    
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2330 台積電 <span class="stars">★</span></div>
+                    <div class="stock-price">2295.0</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.3x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">2205.9</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">2473.1</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>1.9%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2317 鴻海 <span class="stars">★</span></div>
+                    <div class="stock-price">263.0</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.8x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">249.2</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">290.6</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>5.9%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2454 聯發科 <span class="stars">★</span></div>
+                    <div class="stock-price">4410.0</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.5x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">3994.7</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">5240.6</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>23.2%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2303 聯電 <span class="stars">★</span></div>
+                    <div class="stock-price">142.0</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.5x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">129.4</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">167.2</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>32.7%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">3711 日月光 <span class="stars">★</span></div>
+                    <div class="stock-price">627.0</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.3x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">572.6</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">735.8</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>15.4%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2379 瑞昱 <span class="stars">★</span></div>
+                    <div class="stock-price">594.0</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.9x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">561.3</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">659.4</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>5.3%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2376 技嘉 <span class="stars">★</span></div>
+                    <div class="stock-price">337.5</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.0x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">315.4</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">381.7</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>7.3%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2356 英業達 <span class="stars">★★</span></div>
+                    <div class="stock-price">63.9</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">2.1x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">59.1</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">73.6</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>19.7%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2383 台光電 <span class="stars">★</span></div>
+                    <div class="stock-price">5055.0</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.9x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">4575.1</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">6014.7</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>4.0%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">3037 欣興 <span class="stars">★</span></div>
+                    <div class="stock-price">1025.0</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.9x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">926.0</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">1223.0</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>13.2%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">1513 中興電 <span class="stars">★</span></div>
+                    <div class="stock-price">165.5</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">2.9x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">157.0</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">182.6</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>6.1%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2881 富邦金 <span class="stars">★</span></div>
+                    <div class="stock-price">110.0</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.8x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">105.8</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">118.5</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>13.8%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2882 國泰金 <span class="stars">★</span></div>
+                    <div class="stock-price">84.8</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.6x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">81.5</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">91.3</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>7.3%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2891 中信金 <span class="stars">★</span></div>
+                    <div class="stock-price">59.3</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.2x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">57.0</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">63.9</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>6.3%</span></div>
+            </div>
+        
+        </div>
+        <h3 style="color: var(--accent-red); margin-top: 40px;">🔴 空方過熱警示 (12)</h3>
+        <div class="grid-container">
+    
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2330 台積電</div>
+                    <div class="stock-price">2295.0</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2317 鴻海</div>
+                    <div class="stock-price">263.0</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2454 聯發科</div>
+                    <div class="stock-price">4410.0</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2303 聯電</div>
+                    <div class="stock-price">142.0</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">3711 日月光</div>
+                    <div class="stock-price">627.0</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2379 瑞昱</div>
+                    <div class="stock-price">594.0</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2356 英業達</div>
+                    <div class="stock-price">63.9</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">1513 中興電</div>
+                    <div class="stock-price">165.5</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">1514 亞力</div>
+                    <div class="stock-price">125.5</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2881 富邦金</div>
+                    <div class="stock-price">110.0</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2882 國泰金</div>
+                    <div class="stock-price">84.8</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2891 中信金</div>
+                    <div class="stock-price">59.3</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+        </div>
+    </body>
+    </html>
+    
