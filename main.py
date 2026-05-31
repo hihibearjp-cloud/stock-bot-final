@@ -227,16 +227,20 @@ def analyze():
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    # === 精簡版 LINE 推播 ===
-    dashboard_url = "https://hihibearjp.github.io/stock-bot-final/"
-    line_msg = f"🎯 戰情摘要 ({today_str})\n"
-    line_msg += f"{market_text}\n"
-    line_msg += "-"*20 + "\n"
-    line_msg += f"🟢 買進標的: {len(buy_signals)} 檔\n"
-    line_msg += f"🔴 停利警示: {len(sell_signals)} 檔\n"
-    line_msg += "-"*20 + "\n"
-    line_msg += "📊 點擊查看完整戰情儀表板：\n"
-    line_msg += dashboard_url
+   # === 精簡版 LINE 推播 ===
+    # 這裡我們換一個寫法，用最乾淨的方式組合字串，杜絕任何隱形符號
+    msg_lines = [
+        f"🎯 戰情摘要 ({today_str})",
+        market_text,
+        "--------------------",
+        f"🟢 買進標的: {len(buy_signals)} 檔",
+        f"🔴 停利警示: {len(sell_signals)} 檔",
+        "--------------------",
+        "📊 點擊查看完整戰情儀表板："
+    ]
+    
+    # 用 .join() 把上面的文字接起來，最後再接上網址，保證網址後面乾乾淨淨
+    line_msg = "\n".join(msg_lines) + "\n" + "https://hihibearjp.github.io/stock-bot-final/"
 
     if len(buy_signals) > 0 or len(sell_signals) > 0:
         send_line_message(line_msg)
@@ -245,3 +249,4 @@ def analyze():
 
 if __name__ == "__main__":
     analyze()
+    
