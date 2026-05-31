@@ -228,7 +228,7 @@ def analyze():
         f.write(html_content)
 
     # === 精簡版 LINE 推播 ===
-    dashboard_url = f"https://hihibearjp.github.io/stock-bot-final/"
+    dashboard_url = "https://hihibearjp.github.io/stock-bot-final/"
     line_msg = f"🎯 戰情摘要 ({today_str})\n"
     line_msg += f"{market_text}\n"
     line_msg += "-"*20 + "\n"
