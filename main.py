@@ -220,14 +220,27 @@ def analyze():
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
+        # === 💡 破解 LINE 快取的終極武器 ===
+    timestamp = datetime.now().strftime('%m%d%H%M')
+    dashboard_url = f"https://hihibearjp.github.io/stock-bot-final/?v={timestamp}"
+
     msg_lines = [
-        f"🎯 戰情摘要 ({today_str})", market_text, "--------------------",
-        f"🟢 買進標的: {len(buy_signals)} 檔", f"🔴 停利警示: {len(sell_signals)} 檔",
-        "--------------------", "📱 完整跨國戰情已更新至您的 APP！"
+        f"🎯 戰情摘要 ({today_str})", 
+        market_text, 
+        "--------------------",
+        f"🟢 買進標的: {len(buy_signals)} 檔", 
+        f"🔴 停利警示: {len(sell_signals)} 檔",
+        "--------------------", 
+        "📊 點擊查看最新戰情：",
+        dashboard_url,
+        "",
+        "📱 (也可直接開啟手機桌面 APP)"
     ]
+    
     line_msg = "\n".join(msg_lines)
 
-    if len(buy_signals) > 0 or len(sell_signals) > 0: send_line_message(line_msg)
+    if len(buy_signals) > 0 or len(sell_signals) > 0: 
+        send_line_message(line_msg)
+    else:
+        print("今日無訊號，但仍會更新網頁。")
 
-if __name__ == "__main__":
-    analyze()
