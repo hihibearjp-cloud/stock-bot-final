@@ -6,6 +6,7 @@ from datetime import datetime
 from ta.volatility import BollingerBands, AverageTrueRange
 from ta.trend import PSARIndicator
 
+# 取得環境變數
 LINE_TOKEN = os.environ.get('LINE_TOKEN')
 LINE_USER_ID = os.environ.get('LINE_USER_ID')
 
@@ -29,12 +30,12 @@ def get_market_status():
         return "大盤狀態讀取失敗", "#555"
 
 def analyze():
-    # 💡 抓取從 GitHub 輸入框傳來的「臨時股票代號」
+    # 抓取臨時股票代號
     temp_stock = os.environ.get('TEMP_STOCK', '').strip().upper()
     today_str = datetime.now().strftime('%Y-%m-%d')
     market_text, market_color = get_market_status()
 
-    # --- 判斷執行模式 ---
+    # 判斷執行模式
     if temp_stock:
         print(f"啟動單檔臨時查詢模式：{temp_stock}")
         targets = {temp_stock: "臨時查詢"}
@@ -107,7 +108,7 @@ def analyze():
             atr_stop_loss = today['Close'] - (1.5 * current_atr)
             atr_take_profit = today['Close'] + (3.0 * current_atr)
 
-            # === 💡 如果是臨時查詢，發送專屬的詳細戰情後直接結束 ===
+            # === 臨時查詢直接傳 LINE 結束 ===
             if temp_stock:
                 report = f"🔍 【{display_code} 臨時戰情回報】\n"
                 report += f"──────────────\n"
@@ -119,9 +120,8 @@ def analyze():
                 report += f"📊 乖離: 月線 {bias_20*100:.1f}%\n"
                 report += f"🔥 量能: {vol_ratio:.1f} 倍"
                 send_line_message(report)
-                return # 👈 重要：傳完 LINE 就結束，保護你的網頁不被覆蓋
+                return 
 
-            # (以下是原本的陣列紀錄)
             is_surging = all(df['Close'].iloc[-i] > df['MA5'].iloc[-i] for i in range(1, 4))
             is_touch_bb = today['High'] >= today['BB_Upper']
             is_sar_dead_cross = (yesterday['Close'] >= yesterday['PSAR']) and (today['Close'] < today['PSAR']) if pd.notna(yesterday['PSAR']) and pd.notna(today['PSAR']) else False
@@ -140,7 +140,7 @@ def analyze():
         except Exception as e:
             print(f"Error {code}: {e}")
 
-    # === 生成 HTML 儀表板 (只有在沒有臨時查詢時才會執行到這) ===
+    # === 生成 HTML 儀表板 ===
     html_content = f"""
     <!DOCTYPE html>
     <html lang="zh-TW">
@@ -220,7 +220,7 @@ def analyze():
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
-        # === 💡 破解 LINE 快取的終極武器 ===
+    # === 💡 破解 LINE 快取的終極武器 ===
     timestamp = datetime.now().strftime('%m%d%H%M')
     dashboard_url = f"https://hihibearjp.github.io/stock-bot-final/?v={timestamp}"
 
@@ -244,3 +244,5 @@ def analyze():
     else:
         print("今日無訊號，但仍會更新網頁。")
 
+if __name__ == "__main__":
+    analyze()
