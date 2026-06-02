@@ -1,138 +1,4 @@
 
-import yfinance as yf
-import pandas as pd
-import requests
-import os
-from datetime import datetime
-from ta.volatility import BollingerBands, AverageTrueRange
-from ta.trend import PSARIndicator
-
-# 取得環境變數
-LINE_TOKEN = os.environ.get('LINE_TOKEN')
-LINE_USER_ID = os.environ.get('LINE_USER_ID')
-
-def send_line_message(msg):
-    if not LINE_TOKEN or not LINE_USER_ID:
-        print("測試模式，訊息如下：\n", msg)
-        return
-    headers = {"Authorization": f"Bearer {LINE_TOKEN}", "Content-Type": "application/json"}
-    data = {"to": LINE_USER_ID, "messages": [{"type": "text", "text": msg}]}
-    requests.post("https://api.line.me/v2/bot/message/push", headers=headers, json=data)
-
-def get_market_status():
-    try:
-        twii = yf.Ticker("^TWII").history(period="30d")
-        if len(twii) < 20: return "大盤狀態未知", "#555"
-        ma20 = twii['Close'].rolling(20).mean().iloc[-1]
-        close = twii['Close'].iloc[-1]
-        if close > ma20:
-            return f"🟢 台股偏多 (站上月線)", "#00704A"
-        else:
-            return f"🔴 台股偏空 (跌破月線)", "#d9534f"
-    except:
-        return "大盤狀態讀取失敗", "#555"
-
-def analyze():
-    # 🌍 全球雙引擎：台股加 .TW，美股直接寫代號
-    targets = {
-        # --- 🇹🇼 台股護國神山與半導體 ---
-        "2330.TW": "台積電", "2317.TW": "鴻海", "2454.TW": "聯發科", "2303.TW": "聯電", 
-        "3711.TW": "日月光", "3034.TW": "聯詠", "2379.TW": "瑞昱", "3443.TW": "創意",
-        
-        # --- 🇹🇼 AI 伺服器與散熱 (高波動飆股區) ---
-        "2382.TW": "廣達", "3231.TW": "緯創", "2376.TW": "技嘉", "2356.TW": "英業達",
-        "3017.TW": "奇鋐", "3324.TW": "雙鴻", "2383.TW": "台光電", "3037.TW": "欣興",
-        
-        # --- 🇹🇼 重電、記憶體、金融 ---
-        "1519.TW": "華城", "1513.TW": "中興電", "1504.TW": "東元", "1514.TW": "亞力",
-        "8299.TW": "群聯", "2337.TW": "旺宏", "8358.TW": "金居",
-        "2881.TW": "富邦金", "2882.TW": "國泰金", "2891.TW": "中信金",
-        
-        # --- 🇺🇸 美股科技與 0% FIRE 核心 ---
-        "QQQM": "納指ETF", "SOXX": "半導體ETF", "TSM": "台積電ADR", 
-        "NVDA": "輝達", "AAPL": "蘋果", "MSFT": "微軟", "QLD": "2倍做多納指"
-    }
-    
-    today_str = datetime.now().strftime('%Y-%m-%d')
-    market_text, market_color = get_market_status()
-    
-    buy_signals = []
-    sell_signals = []
-
-    for code, name in targets.items():
-        try:
-            # 直接讀取字典裡的代號 (不用再統一加 .TW 了)
-            df = yf.Ticker(code).history(period="100d")
-            if len(df) < 30: continue
-            
-            # 為了讓網頁顯示乾淨，把代號裡的 .TW 拿掉
-            display_code = code.replace('.TW', '')
-            
-            df['MA5'] = df['Close'].rolling(5).mean()
-            df['MA10'] = df['Close'].rolling(10).mean()
-            df['MA20'] = df['Close'].rolling(20).mean()
-            df['VMA20'] = df['Volume'].rolling(20).mean()
-            
-            indicator_bb = BollingerBands(close=df['Close'], window=20, window_dev=2)
-            df['BB_Upper'] = indicator_bb.bollinger_hband()
-            
-            indicator_psar = PSARIndicator(high=df['High'], low=df['Low'], close=df['Close'], step=0.02, max_step=0.2)
-            df['PSAR'] = indicator_psar.psar()
-            
-            indicator_atr = AverageTrueRange(high=df['High'], low=df['Low'], close=df['Close'], window=14)
-            df['ATR'] = indicator_atr.average_true_range()
-            
-            df['Is_Peak'] = (df['High'] > df['High'].shift(1)) & (df['High'] > df['High'].shift(2)) & \
-                            (df['High'] >= df['High'].shift(-1)) & (df['High'] >= df['High'].shift(-2))
-            historical_peaks = df[df['Is_Peak'] & (df.index < df.index[-2])]
-            recent_neckline = historical_peaks.iloc[-1]['High'] if not historical_peaks.empty else df['High'].iloc[-20:-3].max()
-
-            today = df.iloc[-1]
-            yesterday = df.iloc[-2]
-            
-            vol_ratio = today['Volume'] / today['VMA20'] if today['VMA20'] > 0 else 0
-            is_high_volume = vol_ratio >= 1.0
-            
-            is_breakout = (today['Close'] > recent_neckline) and (yesterday['Close'] <= recent_neckline)
-            is_bullish_ma = (today['MA5'] > today['MA10']) and (today['MA10'] > today['MA20']) and (today['MA5'] > yesterday['MA5'])
-            
-            ma_max, ma_min = max(today['MA5'], today['MA10'], today['MA20']), min(today['MA5'], today['MA10'], today['MA20'])
-            is_tangled = ((ma_max - ma_min) / ma_min) <= 0.03
-            
-            body_percent = (today['Close'] - today['Open']) / today['Open']
-            is_super_red = (body_percent >= 0.03) and (today['Close'] > yesterday['High']) and (today['Open'] <= yesterday['Close'])
-
-            buy_c1 = is_high_volume and is_breakout
-            buy_c2 = is_bullish_ma
-            buy_c3 = is_tangled and (today['Close'] > recent_neckline)
-            buy_c4 = is_high_volume and is_super_red
-            buy_score = sum([buy_c1, buy_c2, buy_c3, buy_c4])
-
-            bias_20 = (today['Close'] - today['MA20']) / today['MA20']
-            current_atr = today['ATR']
-            atr_stop_loss = today['Close'] - (1.5 * current_atr)
-            atr_take_profit = today['Close'] + (3.0 * current_atr)
-
-            is_surging = all(df['Close'].iloc[-i] > df['MA5'].iloc[-i] for i in range(1, 4))
-            is_touch_bb = today['High'] >= today['BB_Upper']
-            is_sar_dead_cross = (yesterday['Close'] >= yesterday['PSAR']) and (today['Close'] < today['PSAR']) if pd.notna(yesterday['PSAR']) and pd.notna(today['PSAR']) else False
-
-            stock_info = {
-                "code": display_code, "name": name, "price": today['Close'], "vol_ratio": vol_ratio,
-                "atr": current_atr, "sl": atr_stop_loss, "tp": atr_take_profit, "bias": bias_20 * 100
-            }
-
-            if buy_score > 0:
-                stock_info['score'] = buy_score
-                buy_signals.append(stock_info)
-            if (is_surging and is_touch_bb) or (is_surging and is_sar_dead_cross):
-                sell_signals.append(stock_info)
-
-        except Exception as e:
-            print(f"Error {code}: {e}")
-
-    # === 生成 HTML 儀表板 (支援小數點兩位) ===
-    html_content = f"""
     <!DOCTYPE html>
     <html lang="zh-TW">
     <head>
@@ -142,119 +8,352 @@ def analyze():
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="AI 戰情室">
         <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=256&auto=format&fit=crop">
-        <title>戰情儀表板 | {today_str}</title>
+        <title>戰情儀表板 | 2026-06-02</title>
         <style>
-            :root {{
-                --bg-color: #121212;
-                --card-bg: #1e1e1e;
-                --text-main: #e0e0e0;
-                --text-sub: #a0a0a0;
-                --accent-green: #00704A;
-                --accent-red: #d9534f;
-                --border-radius: 12px;
-            }}
-            body {{
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-                background-color: var(--bg-color);
-                color: var(--text-main);
-                margin: 0; padding: 40px 20px 20px 20px; 
-                -webkit-user-select: none;
-            }}
-            .header {{ text-align: center; margin-bottom: 30px; }}
-            .market-status {{
-                display: inline-block; padding: 10px 20px; border-radius: 30px;
-                background-color: var(--card-bg); border: 1px solid {market_color};
-                color: {market_color}; font-weight: bold; margin-top: 10px;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            }}
-            .grid-container {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }}
-            .card {{
-                background-color: var(--card-bg); border-radius: var(--border-radius);
-                padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-                border-top: 4px solid var(--accent-green); transition: transform 0.2s;
-            }}
-            .card.sell {{ border-top-color: var(--accent-red); }}
-            .card-header {{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }}
-            .stock-name {{ font-size: 1.4em; font-weight: bold; }}
-            .stock-price {{ font-size: 1.2em; color: #fff; }}
-            .data-row {{ display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95em; }}
-            .label {{ color: var(--text-sub); }}
-            .value-green {{ color: var(--accent-green); font-weight: bold; }}
-            .value-red {{ color: var(--accent-red); font-weight: bold; }}
-            .stars {{ color: #FFD700; font-size: 1.2em; }}
+            :root { --bg-color: #121212; --card-bg: #1e1e1e; --text-main: #e0e0e0; --text-sub: #a0a0a0; --accent-green: #00704A; --accent-red: #d9534f; --border-radius: 12px; }
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 40px 20px 20px 20px; -webkit-user-select: none; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .market-status { display: inline-block; padding: 10px 20px; border-radius: 30px; background-color: var(--card-bg); border: 1px solid #00704A; color: #00704A; font-weight: bold; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+            .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+            .card { background-color: var(--card-bg); border-radius: var(--border-radius); padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.4); border-top: 4px solid var(--accent-green); transition: transform 0.2s; }
+            .card.sell { border-top-color: var(--accent-red); }
+            .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+            .stock-name { font-size: 1.4em; font-weight: bold; }
+            .stock-price { font-size: 1.2em; color: #fff; }
+            .data-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95em; }
+            .label { color: var(--text-sub); }
+            .value-green { color: var(--accent-green); font-weight: bold; }
+            .value-red { color: var(--accent-red); font-weight: bold; }
+            .stars { color: #FFD700; font-size: 1.2em; }
         </style>
     </head>
     <body>
         <div class="header">
             <h2>AI 戰情儀表板</h2>
-            <p style="color: var(--text-sub);">{today_str}</p>
-            <div class="market-status">{market_text}</div>
+            <p style="color: var(--text-sub);">2026-06-02</p>
+            <div class="market-status">🟢 台股偏多 (站上月線)</div>
         </div>
-        <h3 style="color: var(--accent-green);">🟢 多方突破訊號 ({len(buy_signals)})</h3>
+        <h3 style="color: var(--accent-green);">🟢 多方突破訊號 (19)</h3>
         <div class="grid-container">
-    """
     
-    for s in buy_signals:
-        # 價格、停損、停利皆改為 .2f (小數點後兩位)，完美適配美股
-        html_content += f"""
             <div class="card">
                 <div class="card-header">
-                    <div class="stock-name">{s['code']} {s['name']} <span class="stars">{"★"*s['score']}</span></div>
-                    <div class="stock-price">{s['price']:.2f}</div>
+                    <div class="stock-name">2330 台積電 <span class="stars">★★</span></div>
+                    <div class="stock-price">2380.00</div>
                 </div>
-                <div class="data-row"><span class="label">量能放大</span><span class="value-green">{s['vol_ratio']:.1f}x</span></div>
-                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">{s['sl']:.2f}</span></div>
-                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">{s['tp']:.2f}</span></div>
-                <div class="data-row"><span class="label">月線乖離率</span><span>{s['bias']:.1f}%</span></div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.5x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">2290.00</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">2560.00</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>4.7%</span></div>
             </div>
-        """
         
-    html_content += f"""
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2317 鴻海 <span class="stars">★</span></div>
+                    <div class="stock-price">298.50</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.7x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">282.56</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">330.39</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>15.7%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2454 聯發科 <span class="stars">★</span></div>
+                    <div class="stock-price">4530.00</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.8x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">4084.22</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">5421.57</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>18.6%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2303 聯電 <span class="stars">★</span></div>
+                    <div class="stock-price">138.50</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.6x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">124.61</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">166.29</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>19.0%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">3034 聯詠 <span class="stars">★★</span></div>
+                    <div class="stock-price">505.00</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.8x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">481.27</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">552.46</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>4.9%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2379 瑞昱 <span class="stars">★★</span></div>
+                    <div class="stock-price">639.00</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.0x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">601.55</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">713.90</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>11.0%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">3231 緯創 <span class="stars">★</span></div>
+                    <div class="stock-price">191.00</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">3.6x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">180.01</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">212.97</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>30.5%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2376 技嘉 <span class="stars">★</span></div>
+                    <div class="stock-price">390.50</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.8x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">365.48</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">440.54</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>18.2%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2356 英業達 <span class="stars">★★</span></div>
+                    <div class="stock-price">81.90</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">2.2x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">75.78</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">94.15</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>41.5%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">1513 中興電 <span class="stars">★</span></div>
+                    <div class="stock-price">167.50</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.4x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">159.38</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">183.74</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>5.9%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">1504 東元 <span class="stars">★</span></div>
+                    <div class="stock-price">75.70</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.9x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">70.74</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">85.61</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>5.3%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2881 富邦金 <span class="stars">★</span></div>
+                    <div class="stock-price">111.50</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.7x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">106.87</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">120.76</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>12.0%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2882 國泰金 <span class="stars">★</span></div>
+                    <div class="stock-price">87.70</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.5x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">84.24</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">94.61</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>8.8%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">2891 中信金 <span class="stars">★</span></div>
+                    <div class="stock-price">63.50</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.4x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">61.05</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">68.40</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>11.1%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">QQQM 納指ETF <span class="stars">★</span></div>
+                    <div class="stock-price">305.82</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.9x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">299.54</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">318.39</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>4.3%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">SOXX 半導體ETF <span class="stars">★</span></div>
+                    <div class="stock-price">571.93</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">0.8x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">541.17</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">633.45</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>8.9%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">TSM 台積電ADR <span class="stars">★★</span></div>
+                    <div class="stock-price">435.63</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.4x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">412.66</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">481.57</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>6.5%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">MSFT 微軟 <span class="stars">★</span></div>
+                    <div class="stock-price">460.52</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.4x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">442.44</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">496.67</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>9.8%</span></div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="stock-name">QLD 2倍做多納指 <span class="stars">★</span></div>
+                    <div class="stock-price">99.63</div>
+                </div>
+                <div class="data-row"><span class="label">量能放大</span><span class="value-green">1.0x</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">95.78</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">107.33</span></div>
+                <div class="data-row"><span class="label">月線乖離率</span><span>8.3%</span></div>
+            </div>
+        
         </div>
-        <h3 style="color: var(--accent-red); margin-top: 40px;">🔴 空方過熱警示 ({len(sell_signals)})</h3>
+        <h3 style="color: var(--accent-red); margin-top: 40px;">🔴 空方過熱警示 (13)</h3>
         <div class="grid-container">
-    """
     
-    for s in sell_signals:
-        html_content += f"""
             <div class="card sell">
                 <div class="card-header">
-                    <div class="stock-name">{s['code']} {s['name']}</div>
-                    <div class="stock-price">{s['price']:.2f}</div>
+                    <div class="stock-name">2330 台積電</div>
+                    <div class="stock-price">2380.00</div>
                 </div>
                 <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
             </div>
-        """
         
-    html_content += """
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2317 鴻海</div>
+                    <div class="stock-price">298.50</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2382 廣達</div>
+                    <div class="stock-price">399.00</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">3231 緯創</div>
+                    <div class="stock-price">191.00</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2376 技嘉</div>
+                    <div class="stock-price">390.50</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2356 英業達</div>
+                    <div class="stock-price">81.90</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">3017 奇鋐</div>
+                    <div class="stock-price">2725.00</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">1504 東元</div>
+                    <div class="stock-price">75.70</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2337 旺宏</div>
+                    <div class="stock-price">174.50</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2882 國泰金</div>
+                    <div class="stock-price">87.70</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">2891 中信金</div>
+                    <div class="stock-price">63.50</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">TSM 台積電ADR</div>
+                    <div class="stock-price">435.63</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
+            <div class="card sell">
+                <div class="card-header">
+                    <div class="stock-name">MSFT 微軟</div>
+                    <div class="stock-price">460.52</div>
+                </div>
+                <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
+            </div>
+        
         </div>
     </body>
     </html>
-    """
     
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(html_content)
-
-    # === 精簡版 LINE 推播 ===
-    msg_lines = [
-        f"🎯 戰情摘要 ({today_str})",
-        market_text,
-        "--------------------",
-        f"🟢 買進標的: {len(buy_signals)} 檔",
-        f"🔴 停利警示: {len(sell_signals)} 檔",
-        "--------------------",
-        "📱 完整跨國戰情已更新至您的 APP！"
-    ]
-    
-    line_msg = "\n".join(msg_lines)
-
-    if len(buy_signals) > 0 or len(sell_signals) > 0:
-        send_line_message(line_msg)
-    else:
-        print("今日無訊號，但仍會更新網頁。")
-
-if __name__ == "__main__":
-    analyze()
-
-
-```
