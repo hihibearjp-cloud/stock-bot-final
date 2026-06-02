@@ -3,6 +3,11 @@ on:
   schedule:
     - cron: '53 3 * * *'
   workflow_dispatch:
+    inputs:
+      temp_stock:
+        description: '🔍 臨時查股 (留白則執行每日雷達，台股請加 .TW)'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -12,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -26,29 +33,17 @@ jobs:
         env:
           LINE_TOKEN: ${{ secrets.LINE_TOKEN }}
           LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+          TEMP_STOCK: ${{ inputs.temp_stock }}
         run: |
           TARGET=$(find . -name "main.py" | head -n 1)
           python "$TARGET"
 
       - name: Commit and Push HTML
+        # 💡 魔法在這裡：只有當「沒有」輸入臨時股票時，才會去更新網頁
+        if: ${{ inputs.temp_stock == '' }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git commit -m "Auto-update Dashboard HTML" || echo "No changes to commit"
-          git push
-
-
----
-
-### 第三步：開啟 GitHub Pages (網頁伺服器功能)
-
-最後一步，我們要讓這個存下來的 `index.html` 可以變成真正的網站。
-1. 在你的 GitHub 專案頁面，點擊最上方的 **Settings** (齒輪圖示)。
-2. 在左側選單往下滑，找到 **Pages**。
-3. 在 **Build and deployment** 區塊：
-   * Source 選擇 **Deploy from a branch**。
-   * Branch 下拉選單選擇 **main**，後面的資料夾選 **/(root)**。
-   * 點擊 **Save**。
-
-大功告成！過大約 2 分鐘後，GitHub 就會幫你把專屬網址建立起來。你可以手動去 Action 跑一次程式測試看看，你的 LINE 畫面將變得清爽無比，而點開網址後，迎接你的將是專屬於你的量化交易儀表板！
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update Dashboard HTML"
+          git push origin HEAD:main
