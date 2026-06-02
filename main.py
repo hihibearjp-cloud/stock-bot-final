@@ -1,3 +1,4 @@
+
 import yfinance as yf
 import pandas as pd
 import requests
@@ -9,10 +10,6 @@ from ta.trend import PSARIndicator
 # 取得環境變數
 LINE_TOKEN = os.environ.get('LINE_TOKEN')
 LINE_USER_ID = os.environ.get('LINE_USER_ID')
-
-# 填寫你的 GitHub 帳號與專案名稱，用來生成專屬網址
-GITHUB_USERNAME = "YOUR_GITHUB_USERNAME"  # <--- 請換成你的 GitHub 帳號
-REPO_NAME = "stock-bot-final"             # <--- 如果專案名稱不同請修改
 
 def send_line_message(msg):
     if not LINE_TOKEN or not LINE_USER_ID:
@@ -29,21 +26,31 @@ def get_market_status():
         ma20 = twii['Close'].rolling(20).mean().iloc[-1]
         close = twii['Close'].iloc[-1]
         if close > ma20:
-            return f"🟢 大盤偏多 (站上月線)", "#00704A"
+            return f"🟢 台股偏多 (站上月線)", "#00704A"
         else:
-            return f"🔴 大盤偏空 (跌破月線)", "#d9534f"
+            return f"🔴 台股偏空 (跌破月線)", "#d9534f"
     except:
         return "大盤狀態讀取失敗", "#555"
 
 def analyze():
+    # 🌍 全球雙引擎：台股加 .TW，美股直接寫代號
     targets = {
-        "2330": "台積電", "2317": "鴻海", "2454": "聯發科", "2303": "聯電", 
-        "3711": "日月光", "3034": "聯詠", "2379": "瑞昱", "3443": "創意",
-        "2382": "廣達", "3231": "緯創", "2376": "技嘉", "2356": "英業達",
-        "3017": "奇鋐", "3324": "雙鴻", "2383": "台光電", "3037": "欣興",
-        "1519": "華城", "1513": "中興電", "1504": "東元", "1514": "亞力",
-        "8299": "群聯", "2337": "旺宏", "8358": "金居",
-        "2881": "富邦金", "2882": "國泰金", "2891": "中信金"
+        # --- 🇹🇼 台股護國神山與半導體 ---
+        "2330.TW": "台積電", "2317.TW": "鴻海", "2454.TW": "聯發科", "2303.TW": "聯電", 
+        "3711.TW": "日月光", "3034.TW": "聯詠", "2379.TW": "瑞昱", "3443.TW": "創意",
+        
+        # --- 🇹🇼 AI 伺服器與散熱 (高波動飆股區) ---
+        "2382.TW": "廣達", "3231.TW": "緯創", "2376.TW": "技嘉", "2356.TW": "英業達",
+        "3017.TW": "奇鋐", "3324.TW": "雙鴻", "2383.TW": "台光電", "3037.TW": "欣興",
+        
+        # --- 🇹🇼 重電、記憶體、金融 ---
+        "1519.TW": "華城", "1513.TW": "中興電", "1504.TW": "東元", "1514.TW": "亞力",
+        "8299.TW": "群聯", "2337.TW": "旺宏", "8358.TW": "金居",
+        "2881.TW": "富邦金", "2882.TW": "國泰金", "2891.TW": "中信金",
+        
+        # --- 🇺🇸 美股科技與 0% FIRE 核心 ---
+        "QQQM": "納指ETF", "SOXX": "半導體ETF", "TSM": "台積電ADR", 
+        "NVDA": "輝達", "AAPL": "蘋果", "MSFT": "微軟", "QLD": "2倍做多納指"
     }
     
     today_str = datetime.now().strftime('%Y-%m-%d')
@@ -54,8 +61,12 @@ def analyze():
 
     for code, name in targets.items():
         try:
-            df = yf.Ticker(f"{code}.TW").history(period="100d")
+            # 直接讀取字典裡的代號 (不用再統一加 .TW 了)
+            df = yf.Ticker(code).history(period="100d")
             if len(df) < 30: continue
+            
+            # 為了讓網頁顯示乾淨，把代號裡的 .TW 拿掉
+            display_code = code.replace('.TW', '')
             
             df['MA5'] = df['Close'].rolling(5).mean()
             df['MA10'] = df['Close'].rolling(10).mean()
@@ -106,9 +117,8 @@ def analyze():
             is_touch_bb = today['High'] >= today['BB_Upper']
             is_sar_dead_cross = (yesterday['Close'] >= yesterday['PSAR']) and (today['Close'] < today['PSAR']) if pd.notna(yesterday['PSAR']) and pd.notna(today['PSAR']) else False
 
-            # 整理訊號資料，準備送入 HTML
             stock_info = {
-                "code": code, "name": name, "price": today['Close'], "vol_ratio": vol_ratio,
+                "code": display_code, "name": name, "price": today['Close'], "vol_ratio": vol_ratio,
                 "atr": current_atr, "sl": atr_stop_loss, "tp": atr_take_profit, "bias": bias_20 * 100
             }
 
@@ -121,13 +131,17 @@ def analyze():
         except Exception as e:
             print(f"Error {code}: {e}")
 
-    # === 生成 HTML 儀表板 ===
+    # === 生成 HTML 儀表板 (支援小數點兩位) ===
     html_content = f"""
     <!DOCTYPE html>
     <html lang="zh-TW">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="AI 戰情室">
+        <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=256&auto=format&fit=crop">
         <title>戰情儀表板 | {today_str}</title>
         <style>
             :root {{
@@ -143,30 +157,24 @@ def analyze():
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
                 background-color: var(--bg-color);
                 color: var(--text-main);
-                margin: 0; padding: 20px;
+                margin: 0; padding: 40px 20px 20px 20px; 
+                -webkit-user-select: none;
             }}
-            .header {{
-                text-align: center; margin-bottom: 30px;
-            }}
+            .header {{ text-align: center; margin-bottom: 30px; }}
             .market-status {{
                 display: inline-block; padding: 10px 20px; border-radius: 30px;
                 background-color: var(--card-bg); border: 1px solid {market_color};
                 color: {market_color}; font-weight: bold; margin-top: 10px;
                 box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             }}
-            .grid-container {{
-                display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;
-            }}
+            .grid-container {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }}
             .card {{
                 background-color: var(--card-bg); border-radius: var(--border-radius);
                 padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
                 border-top: 4px solid var(--accent-green); transition: transform 0.2s;
             }}
             .card.sell {{ border-top-color: var(--accent-red); }}
-            .card:active {{ transform: translateY(2px); box-shadow: 0 4px 8px rgba(0,0,0,0.4); }}
-            .card-header {{
-                display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;
-            }}
+            .card-header {{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }}
             .stock-name {{ font-size: 1.4em; font-weight: bold; }}
             .stock-price {{ font-size: 1.2em; color: #fff; }}
             .data-row {{ display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95em; }}
@@ -187,15 +195,16 @@ def analyze():
     """
     
     for s in buy_signals:
+        # 價格、停損、停利皆改為 .2f (小數點後兩位)，完美適配美股
         html_content += f"""
             <div class="card">
                 <div class="card-header">
                     <div class="stock-name">{s['code']} {s['name']} <span class="stars">{"★"*s['score']}</span></div>
-                    <div class="stock-price">{s['price']:.1f}</div>
+                    <div class="stock-price">{s['price']:.2f}</div>
                 </div>
                 <div class="data-row"><span class="label">量能放大</span><span class="value-green">{s['vol_ratio']:.1f}x</span></div>
-                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">{s['sl']:.1f}</span></div>
-                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">{s['tp']:.1f}</span></div>
+                <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="value-red">{s['sl']:.2f}</span></div>
+                <div class="data-row"><span class="label">ATR 停利價 (攻擊)</span><span class="value-green">{s['tp']:.2f}</span></div>
                 <div class="data-row"><span class="label">月線乖離率</span><span>{s['bias']:.1f}%</span></div>
             </div>
         """
@@ -211,7 +220,7 @@ def analyze():
             <div class="card sell">
                 <div class="card-header">
                     <div class="stock-name">{s['code']} {s['name']}</div>
-                    <div class="stock-price">{s['price']:.1f}</div>
+                    <div class="stock-price">{s['price']:.2f}</div>
                 </div>
                 <div class="data-row"><span class="label">狀態</span><span class="value-red">技術指標過熱 / 趨勢轉弱</span></div>
             </div>
@@ -223,12 +232,10 @@ def analyze():
     </html>
     """
     
-    # 將生成的 HTML 存檔
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
-   # === 精簡版 LINE 推播 ===
-    # 這裡我們換一個寫法，用最乾淨的方式組合字串，杜絕任何隱形符號
+    # === 精簡版 LINE 推播 ===
     msg_lines = [
         f"🎯 戰情摘要 ({today_str})",
         market_text,
@@ -236,11 +243,10 @@ def analyze():
         f"🟢 買進標的: {len(buy_signals)} 檔",
         f"🔴 停利警示: {len(sell_signals)} 檔",
         "--------------------",
-        "📊 點擊查看完整戰情儀表板："
+        "📱 完整跨國戰情已更新至您的 APP！"
     ]
     
-    # 用 .join() 把上面的文字接起來，最後再接上網址，保證網址後面乾乾淨淨
-    line_msg = "\n".join(msg_lines) + "\n" + "https://hihibearjp.github.io/stock-bot-final/"
+    line_msg = "\n".join(msg_lines)
 
     if len(buy_signals) > 0 or len(sell_signals) > 0:
         send_line_message(line_msg)
@@ -249,4 +255,6 @@ def analyze():
 
 if __name__ == "__main__":
     analyze()
-    
+
+
+```
