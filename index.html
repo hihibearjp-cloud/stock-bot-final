@@ -7,374 +7,1518 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="大富翁戰情室">
-        <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=256&auto=format&fit=crop">
-        <title>大富翁戰情室 | 2026-06-07</title>
+        <title>大富翁戰情室 | 跨國雙流版</title>
         <style>
             :root { 
-                --bg-color: #121212; 
-                --card-bg: #1e1e1e; 
-                --text-main: #e0e0e0; 
-                --text-sub: #888888; 
-                --accent-green: #00704A; /* 星巴克綠 */
-                --accent-red: #d9534f; 
-                --accent-blue: #3498db; 
-                --border-radius: 12px; 
+                --bg-color: #121212; --card-bg: #1e1e1e; --text-main: #e0e0e0; --text-sub: #888888; 
+                --accent-green: #00704A; --accent-red: #d9534f; --accent-blue: #3498db; 
+                --accent-yellow: #f1c40f; --border-radius: 12px; 
             }
             body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 40px 20px 20px 20px; -webkit-user-select: none; }
-            .header { text-align: center; margin-bottom: 30px; }
-            .market-status { display: inline-block; padding: 10px 20px; border-radius: 30px; background-color: #111; border: 1px solid #00704A; color: #00704A; font-weight: bold; margin-top: 10px; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.05); }
-            .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+            .header { text-align: center; margin-bottom: 25px; }
+            .market-status { display: inline-block; padding: 10px 20px; border-radius: 30px; background-color: #111; border: 1px solid #00704A; color: #00704A; font-weight: bold; margin-top: 5px; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5); }
             
-            /* 3D 質感卡片設計 */
-            .card { 
-                background-color: var(--card-bg); 
-                border-radius: var(--border-radius); 
-                padding: 20px; 
-                box-shadow: 6px 6px 12px rgba(0,0,0,0.6), -4px -4px 10px rgba(255,255,255,0.05); 
-                border-left: 5px solid var(--accent-green); 
-            }
+            .tabs { display: flex; justify-content: center; margin-bottom: 25px; gap: 10px; }
+            .tab-btn { background-color: #2a2a2a; color: var(--text-sub); border: 1px solid #444; padding: 10px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.9em; transition: all 0.3s; }
+            .tab-btn.active { background-color: var(--accent-green); color: #fff; border-color: var(--accent-green); box-shadow: 0 0 10px rgba(0,112,74,0.5); }
+            .tab-content { display: none; }
+            .tab-content.active { display: block; animation: fadeIn 0.4s; }
+            @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+            
+            /* 新增市場與大區塊標題樣式 */
+            .section-title { font-size: 1.5em; border-bottom: 2px solid #333; padding-bottom: 8px; margin-top: 15px; font-weight: 800; }
+            .buy-title { color: #fff; border-bottom-color: var(--accent-green); }
+            .sell-title { color: #fff; border-bottom-color: var(--accent-red); }
+            .market-sub-title { font-size: 1.1em; color: var(--text-sub); margin: 15px 0 10px 5px; font-weight: bold; letter-spacing: 0.5px; }
+
+            .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+            .card { background-color: var(--card-bg); border-radius: var(--border-radius); padding: 18px; box-shadow: 6px 6px 12px rgba(0,0,0,0.6); border-left: 5px solid var(--accent-green); }
             .card.dip { border-left-color: var(--accent-blue); }
+            .card.vturn { border-left-color: var(--accent-yellow); }
             .card.sell { border-left-color: var(--accent-red); }
             
-            .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-            .stock-name { font-size: 1.3em; font-weight: bold; letter-spacing: 1px; }
-            .stock-price { font-size: 1.4em; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
-            .data-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95em; align-items: center; }
+            .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+            .stock-name { font-size: 1.2em; font-weight: bold; }
+            .stock-price { font-size: 1.35em; color: #fff; }
+            .data-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95em; align-items: center; }
             .label { color: var(--text-sub); }
-            
-            /* 數值立體化標籤 */
             .val-box { padding: 4px 8px; border-radius: 6px; font-weight: bold; background: #2a2a2a; box-shadow: inset 1px 1px 3px rgba(0,0,0,0.8); }
             .value-green { color: var(--accent-green); }
+            .value-yellow { color: var(--accent-yellow); }
             .value-red { color: var(--accent-red); }
             
-            .badge { font-size: 0.7em; padding: 4px 8px; border-radius: 6px; color: #fff; margin-left: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+            .badge { font-size: 0.65em; padding: 4px 6px; border-radius: 6px; color: #fff; margin-left: 6px; font-weight: bold; vertical-align: middle; }
             .bg-green { background-color: var(--accent-green); }
             .bg-blue { background-color: var(--accent-blue); }
+            .bg-yellow { background-color: var(--accent-yellow); color: #000; }
         </style>
+        <script>
+            function showTab(tabId, event) {
+                document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+                event.currentTarget.classList.add('active');
+            }
+        </script>
     </head>
     <body>
         <div class="header">
             <h2 style="color: var(--accent-green);">大富翁戰情室</h2>
-            <p style="color: var(--text-sub);">2026-06-07</p>
             <div class="market-status">🟢 台股偏多 (站上月線)</div>
         </div>
-        <h3 style="color: var(--text-main);">🟢 多方觀測名單 (12)</h3>
-        <div class="grid-container">
-    
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">2330 台積電<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">2365.00</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">2277.42</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">2294.19</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">2539.97</span></div>
-            </div>
         
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">3034 聯詠<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">492.00</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">478.55</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">474.02</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">537.57</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">2379 瑞昱<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">643.00</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">563.74</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">617.74</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">728.52</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">2382 廣達<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">390.50</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">321.05</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">388.94</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">449.38</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">3231 緯創<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">171.00</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">157.32</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">179.48</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">196.83</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">2356 英業達<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">76.80</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">88.60</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">76.80</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">90.96</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">1513 中興電<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">170.50</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">161.29</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">181.44</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">193.97</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">1504 東元<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">78.40</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">70.27</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">79.08</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">91.02</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">1514 亞力<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">135.00</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">123.85</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">131.64</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">156.43</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">2881 富邦金<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">118.00</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">102.40</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">110.33</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">128.41</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">2882 國泰金<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">100.00</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">85.55</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">93.01</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">108.39</span></div>
-            </div>
-        
-            <div class="card">
-                <div class="card-header">
-                    <div class="stock-name">2891 中信金<span class="badge bg-green">強勢突破</span></div>
-                    <div class="stock-price">66.60</div>
-                </div>
-                <div class="data-row"><span class="label">短線 SAR 防守線</span><span class="val-box value-red">63.48</span></div>
-                <div class="data-row"><span class="label">波段 吊燈防守線</span><span class="val-box value-red">65.04</span></div>
-                <div class="data-row"><span class="label">ATR 波段攻擊目標</span><span class="val-box value-green">73.15</span></div>
-            </div>
-        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('today', event)">今日戰情</button>
+<button class="tab-btn " onclick="showTab('yesterday', event)">昨日回顧</button>
+<button class="tab-btn " onclick="showTab('day_before', event)">前日歷史</button>
+
         </div>
-        <h3 style="color: var(--accent-red); margin-top: 40px;">🔴 空方風險警示 (21)</h3>
-        <div class="grid-container">
-    
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">2317 鴻海</div>
-                    <div class="stock-price">284.50</div>
+
+        <div id="today" class="tab-content active">
+<h2 class="section-title buy-title">🟢 多方觀測名單</h2>
+<h3 class="market-sub-title">🇹🇼 台股市場 (15)</h3>
+<div class="grid-container">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2330 台積電<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">2365.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">61.3</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">2277.42</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">2539.97</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">270.53</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">2303 聯電</div>
-                    <div class="stock-price">131.50</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3034 聯詠<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">492.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">59.3</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">478.55</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">537.57</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">152.58</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">3711 日月光</div>
-                    <div class="stock-price">577.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2379 瑞昱<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">643.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">64.1</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">563.74</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">728.52</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">669.00</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">2379 瑞昱</div>
-                    <div class="stock-price">643.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2382 廣達<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">390.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">65.8</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">321.05</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">449.38</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">563.74</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">3443 創意</div>
-                    <div class="stock-price">4410.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3231 緯創<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">171.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">61.3</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">157.32</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">196.83</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">5479.24</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">3231 緯創</div>
-                    <div class="stock-price">171.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2356 英業達<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">76.80</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">70.0</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">88.60</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">90.96</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">157.32</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">2356 英業達</div>
-                    <div class="stock-price">76.80</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1513 中興電<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">170.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">57.0</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">161.29</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">193.97</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">88.60</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">3017 奇鋐</div>
-                    <div class="stock-price">2600.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1504 東元<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">78.40</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">57.8</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">70.27</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">91.02</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">2965.00</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">2383 台光電</div>
-                    <div class="stock-price">4885.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1514 亞力<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">135.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">60.4</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">123.85</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">156.43</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">5635.00</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">3037 欣興</div>
-                    <div class="stock-price">933.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2881 富邦金<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">118.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">85.7</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">102.40</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">128.41</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">1130.00</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">1519 華城</div>
-                    <div class="stock-price">851.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2882 國泰金<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">100.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">88.0</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">85.55</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">108.39</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">836.91</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">1513 中興電</div>
-                    <div class="stock-price">170.50</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2891 中信金<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">66.60</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">71.0</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">63.48</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">73.15</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">161.29</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">1504 東元</div>
-                    <div class="stock-price">78.40</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3008 大立光(股後)<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">3680.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">60.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">4225.00</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">4320.48</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">70.27</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">1514 亞力</div>
-                    <div class="stock-price">135.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">6669 緯穎<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">5660.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">61.9</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">4958.71</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">6633.38</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">123.85</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">2337 旺宏</div>
-                    <div class="stock-price">150.00</div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">5269 祥碩<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">1525.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">57.6</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">1660.00</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">1757.13</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">180.00</span></div>
             </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">2882 國泰金</div>
-                    <div class="stock-price">100.00</div>
+<h3 class="market-sub-title" style="margin-top:25px;">🇺🇸 美股市場 (1)</h3>
+<div class="grid-container">
+
+                <div class="card dip">
+                    <div class="card-header">
+                        <div class="stock-name">LULU Lululemon<span class="badge bg-blue">逢低承接</span></div>
+                        <div class="stock-price">114.23</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">27.5</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">135.64</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">130.85</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">85.55</span></div>
             </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">QQQM 納指ETF</div>
-                    <div class="stock-price">290.35</div>
+<h2 class="section-title sell-title" style="margin-top: 50px;">🔴 空方風險警示</h2>
+<h3 class="market-sub-title">🇹🇼 台股市場 (19)</h3>
+<div class="grid-container">
+
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2317 鴻海</div>
+                        <div class="stock-price">284.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">270.53</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">308.21</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">SOXX 半導體ETF</div>
-                    <div class="stock-price">539.77</div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2303 聯電</div>
+                        <div class="stock-price">131.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">152.58</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">533.31</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">NVDA 輝達</div>
-                    <div class="stock-price">205.10</div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3711 日月光</div>
+                        <div class="stock-price">577.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">669.00</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">232.01</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">MSFT 微軟</div>
-                    <div class="stock-price">416.67</div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2379 瑞昱</div>
+                        <div class="stock-price">643.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">563.74</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">466.32</span></div>
-            </div>
-        
-            <div class="card sell">
-                <div class="card-header">
-                    <div class="stock-name">QLD 2倍做多納指</div>
-                    <div class="stock-price">89.54</div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3443 創意</div>
+                        <div class="stock-price">4410.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">5479.24</span></div>
                 </div>
-                <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
-                <div class="data-row"><span class="label">當前 SAR 點位</span><span class="val-box value-red">101.19</span></div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3231 緯創</div>
+                        <div class="stock-price">171.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">157.32</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2356 英業達</div>
+                        <div class="stock-price">76.80</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">88.60</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3017 奇鋐</div>
+                        <div class="stock-price">2600.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">2965.00</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2383 台光電</div>
+                        <div class="stock-price">4885.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">5635.00</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3037 欣興</div>
+                        <div class="stock-price">933.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">1130.00</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1519 華城</div>
+                        <div class="stock-price">851.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">836.91</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1513 中興電</div>
+                        <div class="stock-price">170.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">161.29</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1504 東元</div>
+                        <div class="stock-price">78.40</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">70.27</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1514 亞力</div>
+                        <div class="stock-price">135.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">123.85</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2882 國泰金</div>
+                        <div class="stock-price">100.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">85.55</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3008 大立光(股後)</div>
+                        <div class="stock-price">3680.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">4225.00</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3661 世芯-KY</div>
+                        <div class="stock-price">4285.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">5181.83</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">5269 祥碩</div>
+                        <div class="stock-price">1525.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">1660.00</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2337 旺宏</div>
+                        <div class="stock-price">150.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">180.00</span></div>
+                </div>
             </div>
-        
-        </div>
+<h3 class="market-sub-title" style="margin-top:25px;">🇺🇸 美股市場 (9)</h3>
+<div class="grid-container">
+
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">QQQM 納指ETF</div>
+                        <div class="stock-price">290.35</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">308.21</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">SOXX 半導體ETF</div>
+                        <div class="stock-price">539.77</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">533.31</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">NVDA 輝達</div>
+                        <div class="stock-price">205.10</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">232.01</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">MSFT 微軟</div>
+                        <div class="stock-price">416.67</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">466.32</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">QLD 2倍做多納指</div>
+                        <div class="stock-price">89.54</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">101.19</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">USD 半導體2X(USD)</div>
+                        <div class="stock-price">88.68</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">116.50</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">MU 美光</div>
+                        <div class="stock-price">864.01</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">835.64</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">SNDK SanDisk</div>
+                        <div class="stock-price">1559.32</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">1861.00</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">LULU Lululemon</div>
+                        <div class="stock-price">114.23</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">135.64</span></div>
+                </div>
+            </div>
+</div>
+<div id="yesterday" class="tab-content ">
+<h2 class="section-title buy-title">🟢 多方觀測名單</h2>
+<h3 class="market-sub-title">🇹🇼 台股市場 (20)</h3>
+<div class="grid-container">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2330 台積電<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">2385.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">64.0</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">2259.36</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">2560.73</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2317 鴻海<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">293.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">69.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">264.60</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">326.91</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2454 聯發科<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">4430.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">68.0</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">3966.44</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">5321.33</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3034 聯詠<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">489.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">58.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">477.15</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">535.31</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2379 瑞昱<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">624.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">60.7</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">555.74</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">703.40</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2382 廣達<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">404.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">71.7</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">310.88</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">460.71</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3231 緯創<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">176.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">65.3</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">151.36</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">201.39</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2376 技嘉<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">374.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">66.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">321.53</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">427.80</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2356 英業達<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">77.80</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">71.8</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">72.35</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">91.67</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3017 奇鋐<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">2710.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">55.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">2500.73</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">3225.48</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1519 華城<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">910.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">56.9</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">819.12</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">1050.89</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1513 中興電<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">187.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">79.1</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">156.88</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">208.01</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1504 東元<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">87.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">75.0</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">68.59</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">98.59</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1514 亞力<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">149.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">80.3</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">121.00</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">169.23</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2881 富邦金<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">114.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">82.7</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">100.89</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">123.59</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2882 國泰金<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">94.40</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">84.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">83.50</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">101.98</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2891 中信金<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">68.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">76.7</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">61.72</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">74.59</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3008 大立光(股後)<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">3825.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">65.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">3565.10</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">4455.90</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">6669 緯穎<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">5570.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">60.3</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">4939.91</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">6517.87</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">5269 祥碩<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">1570.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">62.9</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">1488.40</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">1802.68</span></div>
+                </div>
+            </div>
+<h3 class="market-sub-title" style="margin-top:25px;">🇺🇸 美股市場 (9)</h3>
+<div class="grid-container">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">QQQM 納指ETF<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">304.94</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">73.6</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">296.93</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">317.22</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">SOXX 半導體ETF<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">602.72</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">73.7</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">523.81</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">670.49</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">TSM 台積電ADR<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">444.92</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">65.8</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">396.02</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">491.61</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">MSFT 微軟<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">428.05</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">53.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">421.90</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">466.20</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">QLD 2倍做多納指<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">99.02</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">72.9</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">94.15</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">106.61</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">USD 半導體2X(USD)<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">106.64</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">64.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">96.18</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">126.08</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">MU 美光<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">996.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">69.7</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">801.05</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">1178.12</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">SNDK SanDisk<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">1759.68</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">68.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">1535.60</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">2088.43</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">AAOI 應用光電<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">202.89</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">58.4</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">149.05</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">273.74</span></div>
+                </div>
+            </div>
+<h2 class="section-title sell-title" style="margin-top: 50px;">🔴 空方風險警示</h2>
+<h3 class="market-sub-title">🇹🇼 台股市場 (15)</h3>
+<div class="grid-container">
+
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2330 台積電</div>
+                        <div class="stock-price">2385.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">2259.36</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2303 聯電</div>
+                        <div class="stock-price">125.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">154.50</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2379 瑞昱</div>
+                        <div class="stock-price">624.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">555.74</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3443 創意</div>
+                        <div class="stock-price">4400.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">5506.27</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2382 廣達</div>
+                        <div class="stock-price">404.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">310.88</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3231 緯創</div>
+                        <div class="stock-price">176.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">151.36</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2383 台光電</div>
+                        <div class="stock-price">4830.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">4649.93</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1519 華城</div>
+                        <div class="stock-price">910.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">819.12</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1513 中興電</div>
+                        <div class="stock-price">187.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">156.88</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1504 東元</div>
+                        <div class="stock-price">87.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">68.59</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1514 亞力</div>
+                        <div class="stock-price">149.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">121.00</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2882 國泰金</div>
+                        <div class="stock-price">94.40</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">83.50</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2891 中信金</div>
+                        <div class="stock-price">68.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">61.72</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3661 世芯-KY</div>
+                        <div class="stock-price">4340.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">5221.49</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">5269 祥碩</div>
+                        <div class="stock-price">1570.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">1488.40</span></div>
+                </div>
+            </div>
+<h3 class="market-sub-title" style="margin-top:25px;">🇺🇸 美股市場 (2)</h3>
+<div class="grid-container">
+
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">TSM 台積電ADR</div>
+                        <div class="stock-price">444.92</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">396.02</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">MSFT 微軟</div>
+                        <div class="stock-price">428.05</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">421.90</span></div>
+                </div>
+            </div>
+</div>
+<div id="day_before" class="tab-content ">
+<h2 class="section-title buy-title">🟢 多方觀測名單</h2>
+<h3 class="market-sub-title">🇹🇼 台股市場 (20)</h3>
+<div class="grid-container">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2330 台積電<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">2425.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">69.8</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">2239.29</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">2605.02</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2317 鴻海<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">309.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">83.4</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">257.86</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">341.83</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3034 聯詠<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">503.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">65.7</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">475.70</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">549.64</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2379 瑞昱<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">646.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">67.5</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">547.24</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">726.43</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2382 廣達<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">417.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">77.9</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">299.83</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">473.00</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3231 緯創<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">194.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">83.4</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">144.59</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">217.19</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2376 技嘉<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">399.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">80.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">314.53</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">450.83</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2356 英業達<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">85.40</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">88.0</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">68.28</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">98.49</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3017 奇鋐<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">2855.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">62.3</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">2460.36</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">3368.60</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1519 華城<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">935.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">61.4</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">809.05</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">1066.65</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1513 中興電<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">184.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">77.9</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">154.48</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">203.32</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1504 東元<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">83.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">71.3</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">67.67</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">93.95</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">1514 亞力<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">136.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">72.4</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">120.46</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">154.14</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2881 富邦金<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">113.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">81.9</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">99.21</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">122.87</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2882 國泰金<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">91.80</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">81.8</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">82.04</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">98.93</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2891 中信金<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">70.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">88.5</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">59.53</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">76.56</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">3008 大立光(股後)<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">3985.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">71.3</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">3457.68</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">4615.97</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">6669 緯穎<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">5600.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">61.1</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">4920.72</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">6542.33</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">5269 祥碩<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">1575.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">63.5</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">1465.00</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">1810.58</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">2337 旺宏<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">162.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">53.6</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">141.11</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">200.45</span></div>
+                </div>
+            </div>
+<h3 class="market-sub-title" style="margin-top:25px;">🇺🇸 美股市場 (8)</h3>
+<div class="grid-container">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">QQQM 納指ETF<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">306.61</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">77.9</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">294.78</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">318.70</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">SOXX 半導體ETF<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">615.68</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">79.7</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">513.25</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">679.86</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">TSM 台積電ADR<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">436.69</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">63.1</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">392.57</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">482.19</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">MSFT 微軟<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">427.34</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">52.8</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">418.03</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">466.17</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">QLD 2倍做多納指<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">100.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">77.0</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">92.80</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">107.45</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">USD 半導體2X(USD)<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">112.24</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">73.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">93.41</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">130.10</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">MU 美光<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">1079.57</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">82.4</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">761.74</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">1250.80</span></div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="stock-name">SNDK SanDisk<span class="badge bg-green">強勢突破</span></div>
+                        <div class="stock-price">1831.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box value-green">74.2</span></div>
+                    <div class="data-row"><span class="label">SAR 暴力防守</span><span class="val-box value-red">1482.63</span></div>
+                    <div class="data-row"><span class="label">ATR 波段目標</span><span class="val-box value-green">2160.99</span></div>
+                </div>
+            </div>
+<h2 class="section-title sell-title" style="margin-top: 50px;">🔴 空方風險警示</h2>
+<h3 class="market-sub-title">🇹🇼 台股市場 (21)</h3>
+<div class="grid-container">
+
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2330 台積電</div>
+                        <div class="stock-price">2425.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">2239.29</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2317 鴻海</div>
+                        <div class="stock-price">309.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">257.86</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2303 聯電</div>
+                        <div class="stock-price">130.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">155.50</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3034 聯詠</div>
+                        <div class="stock-price">503.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">475.70</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2379 瑞昱</div>
+                        <div class="stock-price">646.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">547.24</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3443 創意</div>
+                        <div class="stock-price">4605.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">5533.85</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2382 廣達</div>
+                        <div class="stock-price">417.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">299.83</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3231 緯創</div>
+                        <div class="stock-price">194.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">144.59</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2376 技嘉</div>
+                        <div class="stock-price">399.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">314.53</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2356 英業達</div>
+                        <div class="stock-price">85.40</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">68.28</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3017 奇鋐</div>
+                        <div class="stock-price">2855.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">2460.36</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2383 台光電</div>
+                        <div class="stock-price">4830.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">4608.88</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1513 中興電</div>
+                        <div class="stock-price">184.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">154.48</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1504 東元</div>
+                        <div class="stock-price">83.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">67.67</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">1514 亞力</div>
+                        <div class="stock-price">136.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">120.46</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2881 富邦金</div>
+                        <div class="stock-price">113.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">99.21</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2882 國泰金</div>
+                        <div class="stock-price">91.80</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">82.04</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">2891 中信金</div>
+                        <div class="stock-price">70.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">59.53</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3008 大立光(股後)</div>
+                        <div class="stock-price">3985.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">3457.68</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">3661 世芯-KY</div>
+                        <div class="stock-price">4595.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">5262.80</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">5269 祥碩</div>
+                        <div class="stock-price">1575.00</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">1465.00</span></div>
+                </div>
+            </div>
+<h3 class="market-sub-title" style="margin-top:25px;">🇺🇸 美股市場 (8)</h3>
+<div class="grid-container">
+
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">SOXX 半導體ETF</div>
+                        <div class="stock-price">615.68</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">513.25</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">TSM 台積電ADR</div>
+                        <div class="stock-price">436.69</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">392.57</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">NVDA 輝達</div>
+                        <div class="stock-price">214.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">209.01</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">MSFT 微軟</div>
+                        <div class="stock-price">427.34</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">波段趨勢破線 (吊燈停損)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">418.03</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">USD 半導體2X(USD)</div>
+                        <div class="stock-price">112.24</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">93.41</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">MU 美光</div>
+                        <div class="stock-price">1079.57</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">761.74</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">SNDK SanDisk</div>
+                        <div class="stock-price">1831.50</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">技術指標過熱 (布林上軌)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">1482.63</span></div>
+                </div>
+            
+                <div class="card sell">
+                    <div class="card-header">
+                        <div class="stock-name">LULU Lululemon</div>
+                        <div class="stock-price">126.03</div>
+                    </div>
+                    <div class="data-row"><span class="label">觸發警報</span><span class="val-box value-red">短線極速反轉 (SAR死叉)</span></div>
+                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box value-red">136.14</span></div>
+                </div>
+            </div>
+</div>
+
     </body>
     </html>
     
