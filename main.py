@@ -114,7 +114,7 @@ def analyze():
                 is_v_turn = (yesterday['RSI'] <= 35 or today['RSI'] <= 35) and (today['RSI'] > yesterday['RSI']) and (today['Close'] > today['Open'])
 
                 bias_20 = ((today['Close'] - today['MA20']) / today['MA20']) * 100
-                atr_stop_loss = today['Close'] - (1.5 * current_atr)  # 💡 重新加入 ATR 停損價
+                atr_stop_loss = today['Close'] - (1.5 * current_atr)  
                 atr_take_profit = today['Close'] + (3.0 * current_atr)
                 
                 sliced_df = df.iloc[-20-offset+1 : len(df)-offset+1]
@@ -124,23 +124,23 @@ def analyze():
                 stock_info = {
                     "code": display_code, "name": name, "price": today['Close'], "vol_ratio": vol_ratio,
                     "tp": atr_take_profit, "sl": atr_stop_loss, "chandelier": chandelier_exit_price, "psar": current_sar, 
-                    "bias": bias_20, "rsi": today['RSI'], "mode": "強勢突破", "is_tw": is_tw
+                    "bb_lower": today['BB_Lower'], "bias": bias_20, "rsi": today['RSI'], "mode": "強勢突破", "is_tw": is_tw,
+                    "ma20": today['MA20'] # 💡 新增 MA20 數據
                 }
 
-                # 💡 星星評分系統
                 added_to_buy = False
                 if is_v_turn:
                     stock_info['mode'] = "⚡ 絕地 V 轉"
-                    stock_info['score'] = 3  # V轉給3星
+                    stock_info['score'] = 3  
                     signals[day_label]['buy'].append(stock_info)
                     added_to_buy = True
                 elif buy_score > 0:
-                    stock_info['score'] = buy_score # 突破依據滿足條件給1~4星
+                    stock_info['score'] = buy_score 
                     signals[day_label]['buy'].append(stock_info)
                     added_to_buy = True
                 elif is_dip_support:
                     stock_info['mode'] = "逢低承接" 
-                    stock_info['score'] = 1  # 承接初階給1星
+                    stock_info['score'] = 1  
                     signals[day_label]['buy'].append(stock_info)
                     added_to_buy = True
 
@@ -163,12 +163,11 @@ def analyze():
                     report = f"🔍 【{display_code} 戰情回報】\n"
                     report += f"──────────────\n"
                     report += f"現價: {today['Close']:.2f}\n"
-                    report += f"當前 RSI 值: {today['RSI']:.1f}\n"
-                    report += f"短線 SAR 防守: {current_sar:.2f}\n"
-                    report += f"ATR 停損價: {atr_stop_loss:.2f}\n"
+                    report += f"月均線(MA20): {today['MA20']:.2f}\n"
+                    report += f"空方防守(破必補): {current_sar:.2f}\n"
+                    report += f"空方收割(布林下): {today['BB_Lower']:.2f}\n"
                     report += f"──────────────\n"
                     report += f"📊 訊號狀態: {trend_status}\n"
-                    report += f"🚨 警報: {'👉 建議出場' if (is_sar_dead_cross or is_chandelier_exit) else '正常抱股'}\n"
                     send_line_message(report)
                     return
 
@@ -202,7 +201,7 @@ def analyze():
 
         html_contents += f'<div id="{day_id}" class="tab-content {active_class}">\n'
         
-        # --- 🚨 多轉空警戒區 ---
+        # --- 🚨 逆轉警戒區 ---
         if turn_tw or turn_us:
             html_contents += '<h2 class="section-title turn-title">⚠️ 🚨 逆轉警戒：多方轉空方專區</h2>\n'
             if turn_tw:
@@ -215,9 +214,11 @@ def analyze():
                                 <div class="stock-name">{s['code']} {s['name']}<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">{s['price']:.2f}</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">{s['vol_ratio']:.1f}x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">{s['vol_ratio']:.1f}x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">{s['reason']}</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">{s['bb_lower']:.2f}</span></div>
                         </div>
                     """
                 html_contents += '</div>\n'
@@ -233,7 +234,9 @@ def analyze():
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">{s['vol_ratio']:.1f}x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">{s['reason']}</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">{s['bb_lower']:.2f}</span></div>
                         </div>
                     """
                 html_contents += '</div>\n'
@@ -241,7 +244,6 @@ def analyze():
         # --- 🟢 多方區塊 ---
         html_contents += '<h2 class="section-title buy-title">🟢 多方觀測名單</h2>\n'
         
-        # 建立一個產生高密度數據卡片的輔助函數 (保持程式碼乾淨)
         def generate_buy_card(s):
             c_class = "card vturn" if s['mode'] == "⚡ 絕地 V 轉" else ("card dip" if s['mode'] == "逢低承接" else "card")
             b_class = "badge bg-yellow" if s['mode'] == "⚡ 絕地 V 轉" else ("badge bg-blue" if s['mode'] == "逢低承接" else "badge bg-pink")
@@ -256,6 +258,7 @@ def analyze():
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">{s['vol_ratio']:.1f}x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box {v_style}">{s['rsi']:.1f}</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">{s['bias']:.1f}%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">{s['sl']:.2f}</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
@@ -285,9 +288,11 @@ def analyze():
                         <div class="stock-name">{s['code']} {s['name']}<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">{s['price']:.2f}</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">{s['bias']:.1f}%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">{s['reason']}</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">{s['bb_lower']:.2f}</span></div>
                 </div>
             """
         html_contents += '</div>\n'
@@ -301,9 +306,11 @@ def analyze():
                         <div class="stock-name">{s['code']} {s['name']}<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">{s['price']:.2f}</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">{s['bias']:.1f}%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">{s['reason']}</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">{s['bb_lower']:.2f}</span></div>
                 </div>
             """
         html_contents += '</div>\n</div>\n'
@@ -360,7 +367,6 @@ def analyze():
             .stock-name {{ font-size: 1.15em; font-weight: bold; line-height: 1.4; }}
             .stock-price {{ font-size: 1.35em; color: #111; font-weight: bold; }}
             
-            /* 💡 高密度數據列設計 (字體縮小、間距緊湊) */
             .data-row {{ display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.85em; align-items: center; border-bottom: 1px dashed #f1f3f5; padding-bottom: 4px; }}
             .data-row:last-child {{ border-bottom: none; margin-bottom: 0; padding-bottom: 0; }}
             .label {{ color: var(--text-sub); }}
@@ -381,7 +387,6 @@ def analyze():
             .bg-orange {{ background-color: var(--accent-orange); }}
             .bg-green {{ background-color: var(--accent-down); }}
             
-            /* 💡 星星樣式 */
             .stars {{ color: #f59e0b; font-size: 0.9em; letter-spacing: 1px; margin-right: 4px; }}
         </style>
         <script>
