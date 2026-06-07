@@ -50,7 +50,6 @@
             .stock-name { font-size: 1.15em; font-weight: bold; line-height: 1.4; }
             .stock-price { font-size: 1.35em; color: #111; font-weight: bold; }
             
-            /* 💡 高密度數據列設計 (字體縮小、間距緊湊) */
             .data-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.85em; align-items: center; border-bottom: 1px dashed #f1f3f5; padding-bottom: 4px; }
             .data-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
             .label { color: var(--text-sub); }
@@ -71,7 +70,6 @@
             .bg-orange { background-color: var(--accent-orange); }
             .bg-green { background-color: var(--accent-down); }
             
-            /* 💡 星星樣式 */
             .stars { color: #f59e0b; font-size: 0.9em; letter-spacing: 1px; margin-right: 4px; }
         </style>
         <script>
@@ -106,9 +104,11 @@
                                 <div class="stock-name">2317 鴻海<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">284.50</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">0.9x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">0.9x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">270.53</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">264.73</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">270.53</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">222.33</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -116,9 +116,11 @@
                                 <div class="stock-name">2379 瑞昱<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">643.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.5x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.5x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">563.74</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">588.15</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">563.74</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">523.88</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -126,9 +128,11 @@
                                 <div class="stock-name">3231 緯創<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">171.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.0x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.0x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">157.32</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">151.43</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">157.32</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">114.00</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -136,9 +140,11 @@
                                 <div class="stock-name">2356 英業達<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">76.80</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.0x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.0x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">88.60</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">62.38</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">88.60</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">39.42</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -146,9 +152,11 @@
                                 <div class="stock-name">3017 奇鋐<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">2600.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">0.9x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">0.9x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">2965.00</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">2587.25</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">2965.00</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">2325.52</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -156,9 +164,11 @@
                                 <div class="stock-name">1519 華城<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">851.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.5x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.5x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">836.91</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">855.05</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">836.91</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">764.65</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -166,9 +176,11 @@
                                 <div class="stock-name">1513 中興電<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">170.50</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">2.3x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">2.3x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">161.29</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">161.82</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">161.29</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">140.49</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -176,9 +188,11 @@
                                 <div class="stock-name">1504 東元<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">78.40</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">2.4x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">2.4x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">70.27</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">73.62</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">70.27</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">64.10</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -186,9 +200,11 @@
                                 <div class="stock-name">1514 亞力<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">135.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.6x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.6x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">123.85</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">123.97</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">123.85</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">107.23</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -196,9 +212,11 @@
                                 <div class="stock-name">2882 國泰金<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">100.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.4x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.4x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">85.55</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">83.09</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">85.55</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">69.94</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -206,9 +224,11 @@
                                 <div class="stock-name">3008 大立光(股後)<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">3680.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">0.9x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">0.9x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">4225.00</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">3437.75</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">4225.00</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">2688.63</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -216,9 +236,11 @@
                                 <div class="stock-name">5269 祥碩<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">1525.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">0.5x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">0.5x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">1660.00</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">1478.50</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">1660.00</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">1346.13</span></div>
                         </div>
                     </div>
 <h3 class="market-sub-title" style="margin-top:20px;">🇺🇸 美股多轉空標的 (7)</h3>
@@ -231,7 +253,9 @@
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">2.0x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">308.21</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">297.28</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">308.21</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">285.33</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -241,7 +265,9 @@
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">2.4x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">533.31</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">545.93</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">533.31</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">476.52</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -251,7 +277,9 @@
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">0.9x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">466.32</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">422.18</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">466.32</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">394.48</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -261,7 +289,9 @@
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.8x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">101.19</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">94.33</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">101.19</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">86.93</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -271,7 +301,9 @@
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">2.0x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">116.50</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">99.70</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">116.50</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">86.58</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -281,7 +313,9 @@
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.4x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">835.64</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">849.82</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">835.64</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">601.06</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -291,7 +325,9 @@
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.1x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">1861.00</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">1553.68</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">1861.00</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">1270.36</span></div>
                         </div>
                     </div>
 <h2 class="section-title buy-title">🟢 多方觀測名單</h2>
@@ -305,6 +341,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.0x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">61.3</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">2290.00</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">3.3%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">2277.52</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">2277.42</span></div>
@@ -318,6 +355,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">59.3</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">486.10</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">1.2%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">469.21</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">478.55</span></div>
@@ -331,6 +369,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.5x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">64.1</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">588.15</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">9.3%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">600.24</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">563.74</span></div>
@@ -344,6 +383,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">65.8</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">337.27</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">15.8%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">361.06</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">321.05</span></div>
@@ -357,6 +397,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.0x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">61.3</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">151.43</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">12.9%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">158.09</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">157.32</span></div>
@@ -370,6 +411,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.0x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">70.0</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">62.38</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">23.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">69.72</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">88.60</span></div>
@@ -383,6 +425,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">2.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">57.0</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">161.82</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">5.4%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">158.76</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">161.29</span></div>
@@ -396,6 +439,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">2.4x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">57.8</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">73.62</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">6.5%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">72.09</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">70.27</span></div>
@@ -409,6 +453,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.6x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">60.4</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">123.97</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">8.9%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">124.28</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">123.85</span></div>
@@ -422,6 +467,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.0x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">85.7</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">102.71</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">14.9%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">112.80</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">102.40</span></div>
@@ -435,6 +481,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.4x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">88.0</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">83.09</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">20.4%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">95.81</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">85.55</span></div>
@@ -448,6 +495,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.0x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">71.0</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">59.08</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">12.7%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">63.33</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">63.48</span></div>
@@ -461,6 +509,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.9x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">60.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">3437.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">7.0%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">3359.76</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">4225.00</span></div>
@@ -474,6 +523,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.9x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">61.9</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">5360.00</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">5.6%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">5173.31</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">4958.71</span></div>
@@ -487,6 +537,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.5x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">57.6</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">1478.50</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">3.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">1408.93</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">1660.00</span></div>
@@ -503,6 +554,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">3.9x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">27.5</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">125.37</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-8.9%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">105.92</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">135.64</span></div>
@@ -518,9 +570,11 @@
                         <div class="stock-name">2303 聯電<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">131.50</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">121.90</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">7.9%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">152.58</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">152.58</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">90.25</span></div>
                 </div>
             
                 <div class="card sell">
@@ -528,9 +582,11 @@
                         <div class="stock-name">3711 日月光<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">577.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">567.55</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">1.7%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">669.00</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">669.00</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">470.95</span></div>
                 </div>
             
                 <div class="card sell">
@@ -538,9 +594,11 @@
                         <div class="stock-name">3443 創意<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">4410.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">4906.25</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-10.1%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">5479.24</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">5479.24</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">4129.34</span></div>
                 </div>
             
                 <div class="card sell">
@@ -548,9 +606,11 @@
                         <div class="stock-name">2383 台光電<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">4885.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">4906.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-0.4%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">5635.00</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">5635.00</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">4368.49</span></div>
                 </div>
             
                 <div class="card sell">
@@ -558,9 +618,11 @@
                         <div class="stock-name">3037 欣興<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">933.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">941.30</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-0.9%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">1130.00</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">1130.00</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">763.56</span></div>
                 </div>
             
                 <div class="card sell">
@@ -568,9 +630,11 @@
                         <div class="stock-name">3661 世芯-KY<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">4285.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">4686.25</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-8.6%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">5181.83</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">5181.83</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">4101.67</span></div>
                 </div>
             
                 <div class="card sell">
@@ -578,9 +642,11 @@
                         <div class="stock-name">2337 旺宏<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">150.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">157.70</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-4.9%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">180.00</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">180.00</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">139.18</span></div>
                 </div>
             </div>
 <h3 class="market-sub-title" style="margin-top:25px;">🇺🇸 美股市場 (2)</h3>
@@ -591,9 +657,11 @@
                         <div class="stock-name">NVDA 輝達<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">205.10</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">218.87</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-6.3%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">232.01</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">232.01</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">206.07</span></div>
                 </div>
             
                 <div class="card sell">
@@ -601,9 +669,11 @@
                         <div class="stock-name">LULU Lululemon<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">114.23</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">125.37</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-8.9%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">135.64</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">135.64</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">115.83</span></div>
                 </div>
             </div>
 </div>
@@ -617,9 +687,11 @@
                                 <div class="stock-name">2330 台積電<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">2385.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">0.8x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">0.8x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">2259.36</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">2286.25</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">2259.36</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">2159.61</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -627,9 +699,11 @@
                                 <div class="stock-name">2379 瑞昱<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">624.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.3x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.3x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">555.74</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">585.60</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">555.74</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">526.39</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -637,9 +711,11 @@
                                 <div class="stock-name">2382 廣達<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">404.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.5x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.5x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">310.88</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">334.77</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">310.88</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">262.01</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -647,9 +723,11 @@
                                 <div class="stock-name">3231 緯創<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">176.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.6x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.6x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">151.36</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">150.20</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">151.36</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">113.83</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -657,9 +735,11 @@
                                 <div class="stock-name">1519 華城<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">910.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">4.2x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">4.2x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">819.12</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">857.30</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">819.12</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">765.19</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -667,9 +747,11 @@
                                 <div class="stock-name">1513 中興電<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">187.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">4.8x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">4.8x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">156.88</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">161.20</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">156.88</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">140.19</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -677,9 +759,11 @@
                                 <div class="stock-name">1504 東元<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">87.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">4.4x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">4.4x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">68.59</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">73.34</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">68.59</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">64.07</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -687,9 +771,11 @@
                                 <div class="stock-name">1514 亞力<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">149.50</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">2.2x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">2.2x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">121.00</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">123.40</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">121.00</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">107.44</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -697,9 +783,11 @@
                                 <div class="stock-name">2882 國泰金<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">94.40</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.2x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.2x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">83.50</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">82.09</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">83.50</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">71.43</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -707,9 +795,11 @@
                                 <div class="stock-name">2891 中信金<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">68.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">1.5x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">1.5x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">61.72</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">58.57</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">61.72</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">49.72</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -717,9 +807,11 @@
                                 <div class="stock-name">5269 祥碩<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">1570.00</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">0.6x</span></div>
+                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">0.6x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">1488.40</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">1472.75</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">1488.40</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">1338.98</span></div>
                         </div>
                     </div>
 <h3 class="market-sub-title" style="margin-top:20px;">🇺🇸 美股多轉空標的 (2)</h3>
@@ -732,7 +824,9 @@
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">0.9x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">396.02</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">414.68</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">396.02</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">383.15</span></div>
                         </div>
                     
                         <div class="card turn">
@@ -742,7 +836,9 @@
                             </div>
                             <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">0.7x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                            <div class="data-row"><span class="label">短線 SAR 點位</span><span class="val-box color-green">421.90</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">422.34</span></div>
+                            <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">421.90</span></div>
+                            <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">394.73</span></div>
                         </div>
                     </div>
 <h2 class="section-title buy-title">🟢 多方觀測名單</h2>
@@ -756,6 +852,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">64.0</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">2286.25</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">4.3%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">2297.13</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">2259.36</span></div>
@@ -769,6 +866,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.1x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">69.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">263.00</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">11.4%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">276.04</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">264.60</span></div>
@@ -782,6 +880,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">68.0</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">3924.50</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">12.9%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">3984.34</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">3966.44</span></div>
@@ -795,6 +894,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.5x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">58.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">486.40</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">0.5%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">465.84</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">477.15</span></div>
@@ -808,6 +908,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">60.7</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">585.60</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">6.6%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">584.30</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">555.74</span></div>
@@ -821,6 +922,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.5x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">71.7</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">334.77</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">20.7%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">375.64</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">310.88</span></div>
@@ -834,6 +936,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.6x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">65.3</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">150.20</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">17.2%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">163.30</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">151.36</span></div>
@@ -847,6 +950,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.1x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">66.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">338.45</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">10.5%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">347.10</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">321.53</span></div>
@@ -860,6 +964,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.2x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">71.8</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">61.02</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">27.5%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">70.87</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">72.35</span></div>
@@ -873,6 +978,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">55.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">2579.50</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">5.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">2452.26</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">2500.73</span></div>
@@ -886,6 +992,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">4.2x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">56.9</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">857.30</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">6.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">839.55</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">819.12</span></div>
@@ -899,6 +1006,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">4.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">79.1</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">161.20</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">16.0%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">176.50</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">156.88</span></div>
@@ -912,6 +1020,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">4.4x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">75.0</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">73.34</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">18.6%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">81.21</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">68.59</span></div>
@@ -925,6 +1034,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">2.2x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">80.3</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">123.40</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">21.2%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">139.63</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">121.00</span></div>
@@ -938,6 +1048,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.9x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">82.7</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">101.64</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">12.2%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">109.20</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">100.89</span></div>
@@ -951,6 +1062,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.2x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">84.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">82.09</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">15.0%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">90.61</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">83.50</span></div>
@@ -964,6 +1076,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.5x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">76.7</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">58.57</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">16.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">64.71</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">61.72</span></div>
@@ -977,6 +1090,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.1x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">65.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">3382.25</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">13.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">3509.55</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">3565.10</span></div>
@@ -990,6 +1104,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.7x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">60.3</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">5337.00</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">4.4%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">5096.06</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">4939.91</span></div>
@@ -1003,6 +1118,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.6x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">62.9</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">1472.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">6.6%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">1453.66</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">1488.40</span></div>
@@ -1019,6 +1135,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.0x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">73.6</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">297.07</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">2.6%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">298.80</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">296.93</span></div>
@@ -1032,6 +1149,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">73.7</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">543.56</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">10.9%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">568.84</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">523.81</span></div>
@@ -1045,6 +1163,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.9x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">65.8</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">414.68</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">7.3%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">421.58</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">396.02</span></div>
@@ -1058,6 +1177,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.7x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">53.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">422.34</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">1.4%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">408.98</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">421.90</span></div>
@@ -1071,6 +1191,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.9x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">72.9</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">94.23</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">5.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">95.23</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">94.15</span></div>
@@ -1084,6 +1205,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.9x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">64.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">99.63</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">7.0%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">96.92</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">96.18</span></div>
@@ -1097,6 +1219,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.0x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">69.7</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">838.95</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">18.7%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">904.94</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">801.05</span></div>
@@ -1110,6 +1233,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">68.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">1542.72</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">14.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">1595.30</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">1535.60</span></div>
@@ -1123,6 +1247,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.1x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">58.4</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">181.24</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">11.9%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">167.46</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">149.05</span></div>
@@ -1138,9 +1263,11 @@
                         <div class="stock-name">2303 聯電<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">125.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">119.89</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">4.3%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">154.50</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">154.50</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">85.91</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1148,9 +1275,11 @@
                         <div class="stock-name">3443 創意<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">4400.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">4946.25</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-11.0%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">5506.27</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">5506.27</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">4193.66</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1158,9 +1287,11 @@
                         <div class="stock-name">2383 台光電<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">4830.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">4900.00</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-1.4%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">4649.93</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">4649.93</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">4357.45</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1168,9 +1299,11 @@
                         <div class="stock-name">3661 世芯-KY<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">4340.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">4716.50</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-8.0%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">5221.49</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">5221.49</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">4155.99</span></div>
                 </div>
             </div>
 <h3 class="market-sub-title" style="margin-top:25px;">🇺🇸 美股市場 (0)</h3>
@@ -1189,6 +1322,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.7x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">69.8</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">2282.50</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">6.2%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">2334.99</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">2239.29</span></div>
@@ -1202,6 +1336,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.5x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">83.4</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">261.02</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">18.4%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">292.59</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">257.86</span></div>
@@ -1215,6 +1350,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.7x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">65.7</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">484.60</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">3.8%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">479.68</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">475.70</span></div>
@@ -1228,6 +1364,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">67.5</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">581.35</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">11.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">605.78</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">547.24</span></div>
@@ -1241,6 +1378,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">2.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">77.9</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">331.77</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">25.7%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">389.00</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">299.83</span></div>
@@ -1254,6 +1392,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">2.4x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">83.4</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">148.70</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">30.5%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">182.40</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">144.59</span></div>
@@ -1267,6 +1406,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.1x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">80.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">335.20</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">19.0%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">373.09</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">314.53</span></div>
@@ -1280,6 +1420,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">88.0</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">59.62</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">43.2%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">78.86</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">68.28</span></div>
@@ -1293,6 +1434,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.2x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">62.3</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">2564.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">11.3%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">2598.20</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">2460.36</span></div>
@@ -1306,6 +1448,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">2.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">61.4</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">856.35</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">9.2%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">869.17</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">809.05</span></div>
@@ -1319,6 +1462,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">3.5x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">77.9</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">159.68</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">15.5%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">175.09</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">154.48</span></div>
@@ -1332,6 +1476,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">2.9x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">71.3</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">72.69</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">14.2%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">77.52</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">67.67</span></div>
@@ -1345,6 +1490,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">2.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">72.4</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">121.90</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">11.6%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">126.93</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">120.46</span></div>
@@ -1358,6 +1504,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.2x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">81.9</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">100.67</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">12.2%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">108.07</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">99.21</span></div>
@@ -1371,6 +1518,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">81.8</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">81.32</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">12.9%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">88.24</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">82.04</span></div>
@@ -1384,6 +1532,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">88.5</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">57.98</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">21.6%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">67.47</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">59.53</span></div>
@@ -1397,6 +1546,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.7x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">71.3</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">3319.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">20.0%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">3669.52</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">3457.68</span></div>
@@ -1410,6 +1560,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.7x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">61.1</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">5302.50</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">5.6%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">5128.84</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">4920.72</span></div>
@@ -1423,6 +1574,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.6x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">63.5</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">1462.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">7.7%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">1457.21</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">1465.00</span></div>
@@ -1436,6 +1588,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">53.6</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">158.25</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">2.4%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">142.77</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">141.11</span></div>
@@ -1452,6 +1605,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.3x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">77.9</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">296.14</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">3.5%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">300.57</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">294.78</span></div>
@@ -1465,6 +1619,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.0x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">79.7</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">538.77</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">14.3%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">583.59</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">513.25</span></div>
@@ -1478,6 +1633,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.8x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">63.1</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">413.41</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">5.6%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">413.94</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">392.57</span></div>
@@ -1491,6 +1647,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.1x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">52.8</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">421.59</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">1.4%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">407.92</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">418.03</span></div>
@@ -1504,6 +1661,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.0x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">77.0</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">93.68</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">6.8%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">96.27</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">92.80</span></div>
@@ -1517,6 +1675,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">1.1x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">73.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">98.74</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">13.7%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">103.31</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">93.41</span></div>
@@ -1530,6 +1689,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.7x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">82.4</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">822.48</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">31.3%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">993.96</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">761.74</span></div>
@@ -1543,6 +1703,7 @@
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">0.9x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box color-pink">74.2</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">1525.23</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">20.1%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">1666.76</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">1482.63</span></div>
@@ -1558,9 +1719,11 @@
                         <div class="stock-name">2330 台積電<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">2425.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">2282.50</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">6.2%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">2239.29</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">2239.29</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">2163.57</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1568,9 +1731,11 @@
                         <div class="stock-name">2317 鴻海<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">309.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">261.02</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">18.4%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">257.86</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">257.86</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">221.36</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1578,9 +1743,11 @@
                         <div class="stock-name">2303 聯電<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">130.50</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">118.46</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">10.2%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">155.50</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">155.50</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">83.10</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1588,9 +1755,11 @@
                         <div class="stock-name">3034 聯詠<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">503.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">484.60</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">3.8%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">475.70</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">475.70</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">458.34</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1598,9 +1767,11 @@
                         <div class="stock-name">2379 瑞昱<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">646.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">581.35</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">11.1%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">547.24</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">547.24</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">521.58</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1608,9 +1779,11 @@
                         <div class="stock-name">3443 創意<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">4605.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">4998.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-7.9%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">5533.85</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">5533.85</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">4259.54</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1618,9 +1791,11 @@
                         <div class="stock-name">2382 廣達<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">417.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">331.77</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">25.7%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">299.83</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">299.83</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">266.06</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1628,9 +1803,11 @@
                         <div class="stock-name">3231 緯創<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">194.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">148.70</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">30.5%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">144.59</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">144.59</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">114.28</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1638,9 +1815,11 @@
                         <div class="stock-name">2376 技嘉<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">399.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">335.20</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">19.0%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">314.53</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">314.53</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">279.46</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1648,9 +1827,11 @@
                         <div class="stock-name">2356 英業達<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">85.40</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">59.62</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">43.2%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">68.28</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">68.28</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">37.91</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1658,9 +1839,11 @@
                         <div class="stock-name">3017 奇鋐<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">2855.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">2564.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">11.3%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">2460.36</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">2460.36</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">2293.80</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1668,9 +1851,11 @@
                         <div class="stock-name">2383 台光電<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">4830.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">4906.50</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-1.6%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">4608.88</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">4608.88</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">4364.35</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1678,9 +1863,11 @@
                         <div class="stock-name">1513 中興電<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">184.50</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">159.68</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">15.5%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">154.48</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">154.48</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">142.26</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1688,9 +1875,11 @@
                         <div class="stock-name">1504 東元<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">83.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">72.69</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">14.2%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">67.67</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">67.67</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">65.84</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1698,9 +1887,11 @@
                         <div class="stock-name">1514 亞力<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">136.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">121.90</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">11.6%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">120.46</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">120.46</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">111.29</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1708,9 +1899,11 @@
                         <div class="stock-name">2881 富邦金<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">113.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">100.67</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">12.2%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">99.21</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">99.21</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">86.31</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1718,9 +1911,11 @@
                         <div class="stock-name">2882 國泰金<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">91.80</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">81.32</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">12.9%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">82.04</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">82.04</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">72.22</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1728,9 +1923,11 @@
                         <div class="stock-name">2891 中信金<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">70.50</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">57.98</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">21.6%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">59.53</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">59.53</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">50.22</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1738,9 +1935,11 @@
                         <div class="stock-name">3008 大立光(股後)<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">3985.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">3319.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">20.0%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">3457.68</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">3457.68</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">2446.12</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1748,9 +1947,11 @@
                         <div class="stock-name">3661 世芯-KY<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">4595.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">4739.25</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-3.0%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">5262.80</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">5262.80</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">4205.41</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1758,9 +1959,11 @@
                         <div class="stock-name">5269 祥碩<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">1575.00</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">1462.75</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">7.7%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">1465.00</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">1465.00</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">1329.65</span></div>
                 </div>
             </div>
 <h3 class="market-sub-title" style="margin-top:25px;">🇺🇸 美股市場 (8)</h3>
@@ -1771,9 +1974,11 @@
                         <div class="stock-name">SOXX 半導體ETF<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">615.68</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">538.77</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">14.3%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">513.25</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">513.25</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">469.20</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1781,9 +1986,11 @@
                         <div class="stock-name">TSM 台積電ADR<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">436.69</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">413.41</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">5.6%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">392.57</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">392.57</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">384.96</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1791,9 +1998,11 @@
                         <div class="stock-name">NVDA 輝達<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">214.50</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">218.63</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-1.9%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">209.01</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">209.01</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">205.86</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1801,9 +2010,11 @@
                         <div class="stock-name">MSFT 微軟<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">427.34</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">421.59</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">1.4%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">波段趨勢破線 (吊燈停損)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">418.03</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">418.03</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">393.83</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1811,9 +2022,11 @@
                         <div class="stock-name">USD 半導體2X(USD)<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">112.24</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">98.74</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">13.7%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">93.41</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">93.41</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">84.96</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1821,9 +2034,11 @@
                         <div class="stock-name">MU 美光<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">1079.57</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">822.48</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">31.3%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">761.74</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">761.74</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">558.76</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1831,9 +2046,11 @@
                         <div class="stock-name">SNDK SanDisk<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">1831.50</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">1525.23</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">20.1%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">技術指標過熱 (布林上軌)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">1482.63</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">1482.63</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">1239.21</span></div>
                 </div>
             
                 <div class="card sell">
@@ -1841,9 +2058,11 @@
                         <div class="stock-name">LULU Lululemon<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">126.03</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">126.69</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">-0.5%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">短線極速反轉 (SAR死叉)</span></div>
-                    <div class="data-row"><span class="label">SAR 點位</span><span class="val-box color-green">136.14</span></div>
+                    <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">136.14</span></div>
+                    <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">117.66</span></div>
                 </div>
             </div>
 </div>
