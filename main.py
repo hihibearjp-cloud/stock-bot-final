@@ -37,20 +37,28 @@ def analyze():
     if temp_stock:
         targets = {temp_stock: "臨時查詢"}
     else:
+        # 💡 終極台美股陣容（包含 MRVL, USD, SNXX, VIX 等所有新兵）
         targets = {
+            # --- 🇹🇼 台股權值山脈 ---
             "2330.TW": "台積電", "2317.TW": "鴻海", "2454.TW": "聯發科", "2303.TW": "聯電", 
             "3711.TW": "日月光", "3034.TW": "聯詠", "2379.TW": "瑞昱", "3443.TW": "創意",
+            # --- 🇹🇼 AI 伺服器與散熱重兵 ---
             "2382.TW": "廣達", "3231.TW": "緯創", "2376.TW": "技嘉", "2356.TW": "英業達",
             "3017.TW": "奇鋐", "3324.TW": "雙鴻", "2383.TW": "台光電", "3037.TW": "欣興",
+            # --- 🇹🇼 重電與核心金融 ---
             "1519.TW": "華城", "1513.TW": "中興電", "1504.TW": "東元", "1514.TW": "亞力",
             "2881.TW": "富邦金", "2882.TW": "國泰金", "2891.TW": "中信金",
+            # --- 🇹🇼 精選高價與個股期活躍標的 ---
             "5274.TW": "信驊(股王)", "3008.TW": "大立光(股後)", "3289.TW": "旺矽", 
             "7741.TW": "鴻勁", "3661.TW": "世芯-KY", "6669.TW": "緯穎", 
             "5269.TW": "祥碩", "3529.TW": "力旺", "8299.TW": "群聯", "2337.TW": "旺宏", "8358.TW": "金居",
-            "QQQM": "納指ETF", "SOXX": "半導體ETF", "TSM": "台積電ADR", 
-            "NVDA": "輝達", "AAPL": "蘋果", "MSFT": "微軟", "QLD": "2倍做多納指",
-            "USD": "半導體2X(USD)", "MU": "美光", "SNDK": "SanDisk", 
-            "AAOI": "應用光電", "LULU": "Lululemon"
+            # --- 🇺🇸 美股主力戰機與ETF ---
+            "QQQM": "納指ETF", "SOXX": "半導體ETF", "SMH": "SMH半導體", "TSM": "台積電ADR", 
+            "NVDA": "輝達", "AAPL": "蘋果", "MSFT": "微軟", "NOW": "ServiceNow", "MRVL": "馬維爾科技",
+            "QLD": "納指2X(QLD)", "USD": "半導體2X(USD)", "SOXL": "半導體3X(SOXL)", 
+            "MU": "美光", "SNDK": "SanDisk", "SNXX": "SNDK 2X(SNXX)", 
+            "AAOI": "應用光電", "AAOX": "AAOI 2X(AAOX)", "DRAM": "記憶體ETF",
+            "^VIX": "恐慌指數(VIX)"
         }
     
     signals = {
@@ -177,6 +185,7 @@ def analyze():
         except Exception as e:
             print(f"Error {code}: {e}")
 
+    # 交叉比對：多轉空
     yest_buy_codes = {s['code'] for s in signals['yesterday']['buy']}
     db_buy_codes = {s['code'] for s in signals['day_before']['buy']}
     today_turn_sells = [s for s in signals['today']['sell'] if s['code'] in yest_buy_codes]
@@ -430,7 +439,7 @@ def analyze():
     if turn_count > 0:
         msg_lines.append(f"⚠️ 🚨 注意：今日出現 {turn_count} 檔【多轉空】極速轉折標的！")
         
-    msg_lines.extend(["--------------------", "📊 點擊進入大富翁高密度戰情室：", dashboard_url])
+    msg_lines.extend(["--------------------", "📊 點擊進入大富翁戰情室：", dashboard_url])
     line_msg = "\n".join(msg_lines)
     
     total_signals = sum(len(signals[day]['buy']) + len(signals[day]['sell']) for day in signals)
