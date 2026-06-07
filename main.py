@@ -125,45 +125,48 @@ def analyze():
                     "code": display_code, "name": name, "price": today['Close'], "vol_ratio": vol_ratio,
                     "tp": atr_take_profit, "sl": atr_stop_loss, "chandelier": chandelier_exit_price, "psar": current_sar, 
                     "bb_lower": today['BB_Lower'], "bias": bias_20, "rsi": today['RSI'], "mode": "強勢突破", "is_tw": is_tw,
-                    "ma20": today['MA20'] # 💡 新增 MA20 數據
+                    "ma20": today['MA20']
                 }
 
                 added_to_buy = False
+                buy_info = stock_info.copy()
                 if is_v_turn:
-                    stock_info['mode'] = "⚡ 絕地 V 轉"
-                    stock_info['score'] = 3  
-                    signals[day_label]['buy'].append(stock_info)
+                    buy_info['mode'] = "⚡ 絕地 V 轉"
+                    buy_info['score'] = 3  
+                    signals[day_label]['buy'].append(buy_info)
                     added_to_buy = True
                 elif buy_score > 0:
-                    stock_info['score'] = buy_score 
-                    signals[day_label]['buy'].append(stock_info)
+                    buy_info['score'] = buy_score 
+                    signals[day_label]['buy'].append(buy_info)
                     added_to_buy = True
                 elif is_dip_support:
-                    stock_info['mode'] = "逢低承接" 
-                    stock_info['score'] = 1  
-                    signals[day_label]['buy'].append(stock_info)
+                    buy_info['mode'] = "逢低承接" 
+                    buy_info['score'] = 1  
+                    signals[day_label]['buy'].append(buy_info)
                     added_to_buy = True
 
                 is_sar_dead_cross = (yesterday['Close'] >= yesterday['PSAR']) and (today['Close'] < today['PSAR'])
                 is_touch_bb_upper = today['High'] >= today['BB_Upper']
                 is_chandelier_exit = today['Close'] < chandelier_exit_price
                 
+                sell_info = stock_info.copy()
                 if is_sar_dead_cross:
-                    stock_info['reason'] = "短線極速反轉 (SAR死叉)"
-                    signals[day_label]['sell'].append(stock_info)
+                    sell_info['reason'] = "短線極速反轉 (SAR死叉)"
+                    signals[day_label]['sell'].append(sell_info)
                 elif is_chandelier_exit:
-                    stock_info['reason'] = "波段趨勢破線 (吊燈停損)"
-                    signals[day_label]['sell'].append(stock_info)
+                    sell_info['reason'] = "波段趨勢破線 (吊燈停損)"
+                    signals[day_label]['sell'].append(sell_info)
                 elif is_touch_bb_upper and today['Close'] > today['MA5']:
-                    stock_info['reason'] = "技術指標過熱 (布林上軌)"
-                    signals[day_label]['sell'].append(stock_info)
+                    sell_info['reason'] = "技術指標過熱 (布林上軌)"
+                    signals[day_label]['sell'].append(sell_info)
 
                 if offset == 1 and temp_stock:
-                    trend_status = stock_info['mode'] if added_to_buy else "無特別訊號"
+                    trend_status = buy_info['mode'] if added_to_buy else "無特別訊號"
                     report = f"🔍 【{display_code} 戰情回報】\n"
                     report += f"──────────────\n"
                     report += f"現價: {today['Close']:.2f}\n"
                     report += f"月均線(MA20): {today['MA20']:.2f}\n"
+                    report += f"ATR 停損價(防守): {atr_stop_loss:.2f}\n"
                     report += f"空方防守(破必補): {current_sar:.2f}\n"
                     report += f"空方收割(布林下): {today['BB_Lower']:.2f}\n"
                     report += f"──────────────\n"
@@ -174,7 +177,6 @@ def analyze():
         except Exception as e:
             print(f"Error {code}: {e}")
 
-    # 交叉比對：多轉空
     yest_buy_codes = {s['code'] for s in signals['yesterday']['buy']}
     db_buy_codes = {s['code'] for s in signals['day_before']['buy']}
     today_turn_sells = [s for s in signals['today']['sell'] if s['code'] in yest_buy_codes]
@@ -214,9 +216,9 @@ def analyze():
                                 <div class="stock-name">{s['code']} {s['name']}<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">{s['price']:.2f}</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">{s['vol_ratio']:.1f}x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">{s['reason']}</span></div>
                             <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
+                            <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="val-box color-green">{s['sl']:.2f}</span></div>
                             <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
                             <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">{s['bb_lower']:.2f}</span></div>
                         </div>
@@ -232,9 +234,9 @@ def analyze():
                                 <div class="stock-name">{s['code']} {s['name']}<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">{s['price']:.2f}</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">{s['vol_ratio']:.1f}x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">{s['reason']}</span></div>
                             <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
+                            <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="val-box color-green">{s['sl']:.2f}</span></div>
                             <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
                             <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">{s['bb_lower']:.2f}</span></div>
                         </div>
