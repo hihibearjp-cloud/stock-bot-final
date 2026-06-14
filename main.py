@@ -2,7 +2,7 @@ import yfinance as yf
 import pandas as pd
 import requests
 import os
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from ta.volatility import BollingerBands, AverageTrueRange
 from ta.trend import PSARIndicator
 from ta.momentum import RSIIndicator
@@ -31,31 +31,35 @@ def get_market_status():
 
 def analyze():
     temp_stock = os.environ.get('TEMP_STOCK', '').strip().upper()
-    today_str = datetime.now().strftime('%Y-%m-%d')
+    
+    # 💡 台灣時區精準校正
+    tw_tz = timezone(timedelta(hours=8))
+    now_tw = datetime.now(tw_tz)
+    time_str = now_tw.strftime('%Y-%m-%d %H:%M')
+    
     market_text, market_color = get_market_status()
 
     if temp_stock:
         targets = {temp_stock: "臨時查詢"}
     else:
+        # 💡 已精簡名單，加入南電、穎崴，聚焦小型股期
         targets = {
-            # --- 🇹🇼 台股權值山脈 ---
-            "2330.TW": "台積電", "2317.TW": "鴻海", "2454.TW": "聯發科", "2303.TW": "聯電", 
+            "0050.TW": "元大台灣50", "00631L.TW": "台灣50正2", "00981A.TW": "台股增長(主動)",
+            "2330.TW": "台積電", "2454.TW": "聯發科", "2303.TW": "聯電", 
             "3711.TW": "日月光", "3034.TW": "聯詠", "2379.TW": "瑞昱", "3443.TW": "創意",
-            # --- 🇹🇼 AI 伺服器與散熱重兵 ---
-            "2382.TW": "廣達", "3231.TW": "緯創", "2376.TW": "技嘉", "2356.TW": "英業達",
-            "3017.TW": "奇鋐", "3324.TW": "雙鴻", "2383.TW": "台光電", "3037.TW": "欣興",
-            # --- 🇹🇼 重電與核心金融 ---
-            "1519.TW": "華城", "1513.TW": "中興電", "1504.TW": "東元", "1514.TW": "亞力",
-            "2881.TW": "富邦金", "2882.TW": "國泰金", "2891.TW": "中信金",
-            # --- 🇹🇼 精選高價與個股期活躍標的 (鴻勁、群聯均完美保留) ---
-            "5274.TW": "信驊(股王)", "3008.TW": "大立光(股後)", "3289.TW": "旺矽", 
-            "7741.TW": "鴻勁", "3661.TW": "世芯-KY", "6669.TW": "緯穎", 
-            "5269.TW": "祥碩", "3529.TW": "力旺", "8299.TW": "群聯", "2337.TW": "旺宏", "8358.TW": "金居",
-            # --- 🇺🇸 美股主力戰機 ---
-            "QQQM": "納指ETF", "SOXX": "半導體ETF", "TSM": "台積電ADR", 
-            "NVDA": "輝達", "AAPL": "蘋果", "MSFT": "微軟", "QLD": "2倍做多納指",
-            "USD": "半導體2X(USD)", "MU": "美光", "SNDK": "SanDisk", 
-            "AAOI": "應用光電", "LULU": "Lululemon"
+            "3231.TW": "緯創", "2376.TW": "技嘉", "2356.TW": "英業達",
+            "3017.TW": "奇鋐", "3324.TWO": "雙鴻", "2383.TW": "台光電", "3037.TW": "欣興", "8046.TW": "南電",
+            "1514.TW": "亞力", "2881.TW": "富邦金", "2882.TW": "國泰金",
+            "5274.TWO": "信驊(股王)", "3008.TW": "大立光(股後)", "3289.TWO": "旺矽", 
+            "7741.TWO": "鴻勁", "3661.TW": "世芯-KY", "6669.TW": "緯穎", 
+            "6515.TW": "穎崴", "3529.TWO": "力旺", "8299.TWO": "群聯", "2337.TW": "旺宏", "8358.TWO": "金居",
+            
+            "QQQM": "納指ETF", "SOXX": "半導體ETF", "SMH": "SMH半導體", "TSM": "台積電ADR", 
+            "NVDA": "輝達", "AAPL": "蘋果", "MSFT": "微軟", "NOW": "ServiceNow", "MRVL": "馬維爾科技",
+            "QLD": "納指2X(QLD)", "USD": "半導體2X(USD)", "SOXL": "半導體3X(SOXL)", 
+            "MU": "美光", "SNDK": "SanDisk", "SNXX": "SNDK 2X(SNXX)", 
+            "AAOI": "應用光電", "AAOX": "AAOI 2X(AAOX)", "DRAM": "記憶體ETF",
+            "^VIX": "恐慌指數(VIX)"
         }
     
     signals = {
@@ -69,8 +73,8 @@ def analyze():
             df = yf.Ticker(code).history(period="100d")
             if len(df) < 30: continue
             
-            display_code = code.replace('.TW', '')
-            is_tw = code.endswith('.TW')
+            display_code = code.replace('.TW', '').replace('.TWO', '')
+            is_tw = code.endswith('.TW') or code.endswith('.TWO')
             
             df['MA5'] = df['Close'].rolling(5).mean()
             df['MA10'] = df['Close'].rolling(10).mean()
@@ -129,46 +133,52 @@ def analyze():
                 stock_info = {
                     "code": display_code, "name": name, "price": today['Close'], "vol_ratio": vol_ratio,
                     "tp": atr_take_profit, "sl": atr_stop_loss, "chandelier": chandelier_exit_price, "psar": current_sar, 
-                    "bb_lower": today['BB_Lower'], "bias": bias_20, "rsi": today['RSI'], "mode": "強勢突破", "is_tw": is_tw
+                    "bb_lower": today['BB_Lower'], "bias": bias_20, "rsi": today['RSI'], "mode": "強勢突破", "is_tw": is_tw,
+                    "ma20": today['MA20']
                 }
 
                 added_to_buy = False
+                buy_info = stock_info.copy()
                 if is_v_turn:
-                    stock_info['mode'] = "⚡ 絕地 V 轉"
-                    stock_info['score'] = 3  
-                    signals[day_label]['buy'].append(stock_info)
+                    buy_info['mode'] = "⚡ 絕地 V 轉"
+                    buy_info['score'] = 3  
+                    signals[day_label]['buy'].append(buy_info)
                     added_to_buy = True
                 elif buy_score > 0:
-                    stock_info['score'] = buy_score 
-                    signals[day_label]['buy'].append(stock_info)
+                    buy_info['score'] = buy_score 
+                    signals[day_label]['buy'].append(buy_info)
                     added_to_buy = True
                 elif is_dip_support:
-                    stock_info['mode'] = "逢低承接" 
-                    stock_info['score'] = 1  
-                    signals[day_label]['buy'].append(stock_info)
+                    buy_info['mode'] = "逢低承接" 
+                    buy_info['score'] = 1  
+                    signals[day_label]['buy'].append(buy_info)
                     added_to_buy = True
 
                 is_sar_dead_cross = (yesterday['Close'] >= yesterday['PSAR']) and (today['Close'] < today['PSAR'])
                 is_touch_bb_upper = today['High'] >= today['BB_Upper']
                 is_chandelier_exit = today['Close'] < chandelier_exit_price
                 
+                sell_info = stock_info.copy()
                 if is_sar_dead_cross:
-                    stock_info['reason'] = "短線極速反轉 (SAR死叉)"
-                    signals[day_label]['sell'].append(stock_info)
+                    sell_info['reason'] = "短線極速反轉 (SAR死叉)"
+                    signals[day_label]['sell'].append(sell_info)
                 elif is_chandelier_exit:
-                    stock_info['reason'] = "波段趨勢破線 (吊燈停損)"
-                    signals[day_label]['sell'].append(stock_info)
+                    sell_info['reason'] = "波段趨勢破線 (吊燈停損)"
+                    signals[day_label]['sell'].append(sell_info)
                 elif is_touch_bb_upper and today['Close'] > today['MA5']:
-                    stock_info['reason'] = "技術指標過熱 (布林上軌)"
-                    signals[day_label]['sell'].append(stock_info)
+                    sell_info['reason'] = "技術指標過熱 (布林上軌)"
+                    signals[day_label]['sell'].append(sell_info)
 
                 if offset == 1 and temp_stock:
-                    trend_status = stock_info['mode'] if added_to_buy else "無特別訊號"
+                    trend_status = buy_info['mode'] if added_to_buy else "無特別訊號"
                     report = f"🔍 【{display_code} 戰情回報】\n"
                     report += f"──────────────\n"
+                    report += f"更新時間: {time_str}\n"
+                    report += f"──────────────\n"
                     report += f"現價: {today['Close']:.2f}\n"
+                    report += f"月均線(MA20): {today['MA20']:.2f}\n"
+                    report += f"ATR 停損價(防守): {atr_stop_loss:.2f}\n"
                     report += f"空方防守(破必補): {current_sar:.2f}\n"
-                    report += f"空方收割(布林下): {today['BB_Lower']:.2f}\n"
                     report += f"──────────────\n"
                     report += f"📊 訊號狀態: {trend_status}\n"
                     send_line_message(report)
@@ -177,13 +187,11 @@ def analyze():
         except Exception as e:
             print(f"Error {code}: {e}")
 
-    # 交叉比對：多轉空
     yest_buy_codes = {s['code'] for s in signals['yesterday']['buy']}
     db_buy_codes = {s['code'] for s in signals['day_before']['buy']}
     today_turn_sells = [s for s in signals['today']['sell'] if s['code'] in yest_buy_codes]
     yest_turn_sells = [s for s in signals['yesterday']['sell'] if s['code'] in db_buy_codes]
 
-    # === 生成 HTML 🚀 ===
     html_tabs = ""
     html_contents = ""
     labels = [('today', '今日戰情', 'active'), ('yesterday', '昨日回顧', ''), ('day_before', '前日歷史', '')]
@@ -204,7 +212,6 @@ def analyze():
 
         html_contents += f'<div id="{day_id}" class="tab-content {active_class}">\n'
         
-        # --- 🚨 逆轉警戒區 (新增空方回補雙指標) ---
         if turn_tw or turn_us:
             html_contents += '<h2 class="section-title turn-title">⚠️ 🚨 逆轉警戒：多方轉空方專區</h2>\n'
             if turn_tw:
@@ -217,8 +224,9 @@ def analyze():
                                 <div class="stock-name">{s['code']} {s['name']}<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">{s['price']:.2f}</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-main">{s['vol_ratio']:.1f}x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">{s['reason']}</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
+                            <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="val-box color-green">{s['sl']:.2f}</span></div>
                             <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
                             <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">{s['bb_lower']:.2f}</span></div>
                         </div>
@@ -234,15 +242,15 @@ def analyze():
                                 <div class="stock-name">{s['code']} {s['name']}<span class="badge bg-orange">昨日多 ➔ 今日空</span></div>
                                 <div class="stock-price">{s['price']:.2f}</div>
                             </div>
-                            <div class="data-row"><span class="label">量能放大</span><span class="val-box color-main">{s['vol_ratio']:.1f}x</span></div>
                             <div class="data-row"><span class="label">轉空核心主因</span><span class="val-box color-green">{s['reason']}</span></div>
+                            <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
+                            <div class="data-row"><span class="label">ATR 停損價 (防守)</span><span class="val-box color-green">{s['sl']:.2f}</span></div>
                             <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
                             <div class="data-row"><span class="label">空方收割目標 (布林下軌)</span><span class="val-box color-pink">{s['bb_lower']:.2f}</span></div>
                         </div>
                     """
                 html_contents += '</div>\n'
 
-        # --- 🟢 多方區塊 ---
         html_contents += '<h2 class="section-title buy-title">🟢 多方觀測名單</h2>\n'
         
         def generate_buy_card(s):
@@ -259,6 +267,7 @@ def analyze():
                     </div>
                     <div class="data-row"><span class="label">量能放大倍數</span><span class="val-box color-pink">{s['vol_ratio']:.1f}x</span></div>
                     <div class="data-row"><span class="label">RSI 相對強弱</span><span class="val-box {v_style}">{s['rsi']:.1f}</span></div>
+                    <div class="data-row"><span class="label">月均線 (MA20支撐)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">{s['bias']:.1f}%</span></div>
                     <div class="data-row"><span class="label">ATR 停損 (防守)</span><span class="val-box color-green">{s['sl']:.2f}</span></div>
                     <div class="data-row"><span class="label">SAR 點位 (極速)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
@@ -276,7 +285,6 @@ def analyze():
         for s in us_buys: html_contents += generate_buy_card(s)
         html_contents += '</div>\n'
         
-        # --- 🔴 空方區塊 (導入回補雙指標) ---
         html_contents += '<h2 class="section-title sell-title" style="margin-top: 50px;">🔴 空方風險警示</h2>\n'
         
         html_contents += f'<h3 class="market-sub-title">🇹🇼 台股市場 ({len(tw_sells_clean)})</h3>\n'
@@ -288,6 +296,7 @@ def analyze():
                         <div class="stock-name">{s['code']} {s['name']}<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">{s['price']:.2f}</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">{s['bias']:.1f}%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">{s['reason']}</span></div>
                     <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
@@ -305,6 +314,7 @@ def analyze():
                         <div class="stock-name">{s['code']} {s['name']}<span class="badge bg-green">空方</span></div>
                         <div class="stock-price">{s['price']:.2f}</div>
                     </div>
+                    <div class="data-row"><span class="label">月均線 (MA20)</span><span class="val-box color-main">{s['ma20']:.2f}</span></div>
                     <div class="data-row"><span class="label">月線乖離率</span><span class="val-box color-sub">{s['bias']:.1f}%</span></div>
                     <div class="data-row"><span class="label">觸發警報</span><span class="val-box color-green">{s['reason']}</span></div>
                     <div class="data-row"><span class="label">空方回補防守 (突破必補)</span><span class="val-box color-green">{s['psar']:.2f}</span></div>
@@ -322,7 +332,7 @@ def analyze():
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="大富翁戰情室">
-        <title>大富翁戰情室 | 數據滿載版</title>
+        <title>大富翁戰情室 | {time_str}</title>
         <style>
             :root {{ 
                 --bg-color: #ffffff; 
@@ -338,7 +348,22 @@ def analyze():
             }}
             body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 40px 20px 20px 20px; -webkit-user-select: none; }}
             .header {{ text-align: center; margin-bottom: 25px; }}
-            .market-status {{ display: inline-block; padding: 10px 20px; border-radius: 30px; background-color: #f1f3f5; border: 1px solid {market_color}; color: {market_color}; font-weight: bold; margin-top: 5px; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); }}
+            
+            /* 💡 暴力置頂、高亮顯示的時間看板 */
+            .time-stamp-box {{ 
+                background-color: #212529; 
+                color: #ffffff; 
+                display: inline-block; 
+                padding: 10px 20px; 
+                border-radius: 8px; 
+                font-size: 1.15em; 
+                font-weight: bold; 
+                margin-bottom: 15px; 
+                box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+                letter-spacing: 0.5px;
+            }}
+            
+            .market-status {{ display: inline-block; padding: 10px 20px; border-radius: 30px; background-color: #f1f3f5; border: 1px solid {market_color}; color: {market_color}; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); }}
             
             .tabs {{ display: flex; justify-content: center; margin-bottom: 25px; gap: 10px; }}
             .tab-btn {{ background-color: #f1f3f5; color: var(--text-sub); border: 1px solid #dee2e6; padding: 10px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.9em; transition: all 0.3s; }}
@@ -385,7 +410,7 @@ def analyze():
             .bg-orange {{ background-color: var(--accent-orange); }}
             .bg-green {{ background-color: var(--accent-down); }}
             
-            .stars {{ color: #f59e0b; font-size: 0.9em; letter-spacing: 1px; margin-right: 4px; }}
+            .stars {{ color: #00704A; font-size: 0.9em; letter-spacing: 1px; margin-right: 4px; }}
         </style>
         <script>
             function showTab(tabId, event) {{
@@ -398,7 +423,13 @@ def analyze():
     </head>
     <body>
         <div class="header">
-            <h2 style="color: #00704A; font-weight:900; letter-spacing:1px;">大富翁戰情室</h2>
+            <h2 style="color: #00704A; font-weight:900; letter-spacing:1px; margin-bottom: 10px;">大富翁戰情室</h2>
+            
+            <div class="time-stamp-box">
+                🕒 更新時間：{time_str}
+            </div>
+            <br>
+            
             <div class="market-status">{market_text}</div>
         </div>
         
@@ -419,14 +450,14 @@ def analyze():
 
     turn_count = len(today_turn_sells)
     msg_lines = [
-        f"🎯 戰情摘要 ({today_str})", market_text, "--------------------",
+        f"🎯 戰情摘要 ({time_str})", market_text, "--------------------",
         f"🟢 今日多方: 台股 {len(tw_buys)} / 美股 {len(us_buys)} 檔", 
         f"🔴 今日空方: 台股 {len(tw_sells_clean)} / 美股 {len(us_sells_clean)} 檔",
     ]
     if turn_count > 0:
         msg_lines.append(f"⚠️ 🚨 注意：今日出現 {turn_count} 檔【多轉空】極速轉折標的！")
         
-    msg_lines.extend(["--------------------", "📊 點擊進入大富翁白底高密度版：", dashboard_url])
+    msg_lines.extend(["--------------------", "📊 點擊進入大富翁戰情室：", dashboard_url])
     line_msg = "\n".join(msg_lines)
     
     total_signals = sum(len(signals[day]['buy']) + len(signals[day]['sell']) for day in signals)
